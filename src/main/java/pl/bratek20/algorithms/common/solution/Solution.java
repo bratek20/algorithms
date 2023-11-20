@@ -11,5 +11,5 @@ public abstract class Solution {
         this.in = input;
         this.out = output;
     }
-    protected abstract void solve();
+    public abstract void solve();
 }

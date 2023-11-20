@@ -3,10 +3,10 @@ package pl.bratek20.algorithms.puzzles;
 import pl.bratek20.algorithms.common.solution.Solution;
 
 // https://www.codingame.com/ide/puzzle/retro-typewriter-art
-class RetroTypewriterArt extends Solution {
+public class RetroTypewriterArt extends Solution {
 
     @Override
-    protected void solve() {
+    public void solve() {
         String recipe = in.nextLine();
 
         var chunks = recipe.split(" ");
