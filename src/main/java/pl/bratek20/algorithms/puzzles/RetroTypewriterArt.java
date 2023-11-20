@@ -1,11 +1,12 @@
 package pl.bratek20.algorithms.puzzles;
 
-import java.util.Scanner;
+import pl.bratek20.algorithms.common.solution.Solution;
 
 // https://www.codingame.com/ide/puzzle/retro-typewriter-art
-class RetroTypewriterArt {
-    public static void main(String args[]) {
-        Scanner in = new Scanner(System.in);
+class RetroTypewriterArt extends Solution {
+
+    @Override
+    protected void solve() {
         String recipe = in.nextLine();
 
         var chunks = recipe.split(" ");
@@ -14,9 +15,9 @@ class RetroTypewriterArt {
         }
     }
 
-    static void printChunk(String chunk) {
+    void printChunk(String chunk) {
         if (chunk.equals("nl")) {
-            System.out.println();
+            out.println();
             return;
         }
         var chunkChars = chunk.toCharArray();
@@ -38,10 +39,11 @@ class RetroTypewriterArt {
         printChunk(chunk, l - 1, chunkChars[l-1]);
     }
 
-    static void printChunk(String chunk, int numLength, char c) {
+    void printChunk(String chunk, int numLength, char c) {
         var num = Integer.parseInt(chunk.substring(0, numLength));
         for (int i = 0; i < num; i++) {
-            System.out.print(c);
+            out.print(c);
         }
     }
+
 }
