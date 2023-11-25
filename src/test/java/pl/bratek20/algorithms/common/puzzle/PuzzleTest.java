@@ -1,11 +1,11 @@
-package pl.bratek20.algorithms.common.solution;
+package pl.bratek20.algorithms.common.puzzle;
 
 import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.common.input.TestInput;
 import pl.bratek20.algorithms.common.output.TestOutput;
 
-public abstract class SolutionTest {
-    protected abstract Solution createSolution();
+public abstract class PuzzleTest {
+    protected abstract Puzzle createSolution();
     protected abstract String testInput();
     protected abstract String testOutput();
 

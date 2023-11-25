@@ -1,9 +1,9 @@
 package pl.bratek20.algorithms.puzzles;
 
-import pl.bratek20.algorithms.common.solution.Solution;
+import pl.bratek20.algorithms.common.puzzle.Puzzle;
 
 // https://www.codingame.com/ide/puzzle/retro-typewriter-art
-public class RetroTypewriterArt extends Solution {
+public class RetroTypewriterArt extends Puzzle {
 
     @Override
     public void solve() {

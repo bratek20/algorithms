@@ -1,9 +1,9 @@
-package pl.bratek20.algorithms.common.solution;
+package pl.bratek20.algorithms.common.puzzle;
 
 import pl.bratek20.algorithms.common.input.Input;
 import pl.bratek20.algorithms.common.output.Output;
 
-public abstract class Solution {
+public abstract class Puzzle {
     protected Input in;
     protected Output out;
 

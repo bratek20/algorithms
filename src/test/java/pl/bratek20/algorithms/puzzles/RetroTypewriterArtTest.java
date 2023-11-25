@@ -1,12 +1,12 @@
 package pl.bratek20.algorithms.puzzles;
 
-import pl.bratek20.algorithms.common.solution.Solution;
-import pl.bratek20.algorithms.common.solution.SolutionTest;
+import pl.bratek20.algorithms.common.puzzle.Puzzle;
+import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
 
-class RetroTypewriterArtTest extends SolutionTest {
+class RetroTypewriterArtTest extends PuzzleTest {
 
     @Override
-    protected Solution createSolution() {
+    protected Puzzle createSolution() {
         return new RetroTypewriterArt();
     }
 
