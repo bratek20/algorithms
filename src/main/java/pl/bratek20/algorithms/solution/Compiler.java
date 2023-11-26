@@ -17,9 +17,9 @@ public class Compiler {
 
         var imports = file.getImports();
         imports.forEach(importLine -> {
-            String className = importLine.getClassName();
+            var importFilePath = importToPath(importLine);
 
-            var importFile = new JavaClassFile(modulesFolderPath + "/common/" + className + ".java");
+            var importFile = new JavaClassFile(importFilePath);
             contentBuilder.addContent(importFile.getClassDeclaration());
         });
 
@@ -29,6 +29,16 @@ public class Compiler {
             .addLine("}");
 
         return contentBuilder.build().toString();
+    }
+
+    private String importToPath(Import importLine) {
+        var path = importLine.getPath();
+        //remove pl.bratek20.algorithms.solution
+        var pathPart = path
+            .replace("pl.bratek20.algorithms", "")
+            .replace(".", "/");
+
+        return modulesFolderPath + pathPart + ".java";
     }
 
     public static void main(String[] args) {

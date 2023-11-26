@@ -11,7 +11,7 @@ public class Import {
         return names[names.length - 1];
     }
 
-    private String getPath() {
+    public String getPath() {
         return value.replace("import ", "").replace(";", "");
     }
 }

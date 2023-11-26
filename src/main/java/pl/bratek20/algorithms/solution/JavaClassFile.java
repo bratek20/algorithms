@@ -26,12 +26,12 @@ public class JavaClassFile {
     public List<Import> getImports() {
         return content.findLines(line -> line.startsWith("import"))
                 .stream()
-                .map(line -> new Import(line))
+                .map(Import::new)
                 .toList();
     }
 
     public FileContent getClassDeclaration() {
-        var classDeclarationStartLine = content.findLine(line -> line.startsWith("public class")).orElseThrow();
+        var classDeclarationStartLine = content.findLine(line -> line.contains(" class ")).orElseThrow();
         return content.splitFromLine(classDeclarationStartLine);
     }
 

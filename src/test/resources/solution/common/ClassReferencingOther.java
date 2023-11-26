@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution.common;
+package solution.common;
 
 public class ClassReferencingOther {
     SomeClass someClass;

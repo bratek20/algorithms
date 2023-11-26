@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JavaClassFileTest {
     private JavaClassFile create() {
-        return new JavaClassFile("src/test/java/pl/bratek20/algorithms/solution/puzzles/SimpleImport.java");
+        return new JavaClassFile("src/test/resources/solution/puzzles/SimpleImport.java");
     }
 
     @Test
@@ -15,7 +15,7 @@ class JavaClassFileTest {
 
         var imports = file.getImports();
 
-        assertThat(imports).containsExactly(new Import("import pl.bratek20.algorithms.solution.common.SomeClass;"));
+        assertThat(imports).containsExactly(new Import("import pl.bratek20.algorithms.common.SomeClass;"));
     }
 
     @Test

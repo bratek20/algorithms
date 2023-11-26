@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CompilerTest {
     private Compiler createCompiler() {
-        return new Compiler("src/test/java/pl/bratek20/algorithms/solution");
+        return new Compiler("src/test/resources/solution");
     }
 
     @Test
@@ -44,6 +44,28 @@ class CompilerTest {
             
             public class SimpleImport {
                 SomeClass someClass;
+            }
+        }
+        """);
+    }
+
+    @Test
+    void shouldCompilePuzzleWithInPackageImport() {
+        //given
+        var compiler = createCompiler();
+
+        //when
+        var result = compiler.compile("InPackageImport");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+        class Solution {
+            public class InPackageClass {
+                Object inPackageClassField;
+            }
+            
+            public class InPackageImport {
+                InPackageClass inPackageClass;
             }
         }
         """);
