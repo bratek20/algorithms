@@ -16,8 +16,12 @@ class CompilerTest {
     }
 
 
-    private Compiler createCompilerWithPredefinedImports(List<String> imports) {
-        return new Compiler("src/test/resources/solution", false, imports);
+    private Compiler createCompilerWithCompileImports(List<String> imports) {
+        return new Compiler("src/test/resources/solution", false, imports, List.of());
+    }
+
+    private Compiler createCompilerWithSolutionImports(List<String> imports) {
+        return new Compiler("src/test/resources/solution", false, List.of(), imports);
     }
 
 
@@ -132,9 +136,9 @@ class CompilerTest {
     }
 
     @Test
-    void shouldAddClassesForPredefinedImports() {
+    void shouldAddClassesForCompileImports() {
         //given
-        var compiler = createCompilerWithPredefinedImports(List.of("pl.bratek20.algorithms.common.SomeClass"));
+        var compiler = createCompilerWithCompileImports(List.of("pl.bratek20.algorithms.common.SomeClass"));
 
         //when
         var result = compiler.compile("NoImports");
@@ -146,6 +150,45 @@ class CompilerTest {
                 Object someClassField;
             }
             
+            public class NoImports {
+                
+            }
+        }
+        """);
+    }
+
+    @Test
+    void shouldSkipJavaImports() {
+        //given
+        var compiler = createCompiler();
+
+        //when
+        var result = compiler.compile("WithJavaImports");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+        class Solution {
+            public class WithJavaImports {
+                
+            }
+        }
+        """);
+    }
+
+    @Test
+    void shouldAddSolutionImports() {
+        //given
+        var compiler = createCompilerWithSolutionImports(List.of("java.util.List", "java.util.ArrayList"));
+
+        //when
+        var result = compiler.compile("NoImports");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+        import java.util.List;
+        import java.util.ArrayList;
+        
+        class Solution {
             public class NoImports {
                 
             }
