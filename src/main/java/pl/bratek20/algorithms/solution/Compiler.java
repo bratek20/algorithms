@@ -1,12 +1,24 @@
 package pl.bratek20.algorithms.solution;
 
+import java.util.List;
+
 public class Compiler {
     private final String modulesFolderPath;
     private final boolean attachMain;
+    private final List<String> predefinedImports;
+
+    public Compiler(String modulesFolderPath) {
+        this(modulesFolderPath, false);
+    }
 
     public Compiler(String modulesFolderPath, boolean attachMain) {
+        this(modulesFolderPath, attachMain, List.of());
+    }
+
+    public Compiler(String modulesFolderPath, boolean attachMain, List<String> predefinedImports) {
         this.modulesFolderPath = modulesFolderPath;
         this.attachMain = attachMain;
+        this.predefinedImports = predefinedImports;
     }
 
     public String compile(String puzzleName) {
@@ -17,6 +29,9 @@ public class Compiler {
         contentBuilder
             .addLine("class Solution {")
             .addIndent(4);
+
+        predefinedImports
+            .forEach(importLine -> compileForImport(new Import(importLine), contentBuilder));
 
         compileFile(file, contentBuilder);
 
@@ -37,15 +52,17 @@ public class Compiler {
     }
 
     private void compileFile(JavaClassFile file, FileContentBuilder builder) {
-        var imports = file.getImports();
-        imports.forEach(importLine -> {
-            var importFilePath = importToPath(importLine);
-
-            var importFile = new JavaClassFile(importFilePath);
-            compileFile(importFile, builder);
-        });
+        file.getImports()
+            .forEach(importLine -> compileForImport(importLine, builder));
 
         builder.addContent(file.getClassDeclaration());
+    }
+
+    private void compileForImport(Import importLine, FileContentBuilder builder) {
+        var importFilePath = importToPath(importLine);
+
+        var importFile = new JavaClassFile(importFilePath);
+        compileFile(importFile, builder);
     }
 
     private String importToPath(Import importLine) {
@@ -63,7 +80,11 @@ public class Compiler {
             return;
         }
 
-        var compiler = new Compiler("src/main/java/pl/bratek20/algorithms", true);
+        var compiler = new Compiler(
+            "src/main/java/pl/bratek20/algorithms",
+            true,
+            List.of("pl.bratek20.algorithms.common.puzzle.PuzzleSolver"));
+
         System.out.println(compiler.compile(args[0]));
     }
 }
