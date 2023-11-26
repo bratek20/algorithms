@@ -15,7 +15,7 @@ class JavaClassFileTest {
 
         var imports = file.getImports();
 
-        assertThat(imports).containsExactly("pl.bratek20.algorithms.solution.common.SomeClass");
+        assertThat(imports).containsExactly(new Import("import pl.bratek20.algorithms.solution.common.SomeClass;"));
     }
 
     @Test

@@ -42,7 +42,7 @@ class CompilerTest {
                 Object someClassField;
             }
             
-            public class ExamplePuzzle {
+            public class SimpleImport {
                 SomeClass someClass;
             }
         }

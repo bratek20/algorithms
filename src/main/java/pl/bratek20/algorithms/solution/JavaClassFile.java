@@ -23,12 +23,10 @@ public class JavaClassFile {
         content = new FileContent(contentString);
     }
 
-    public List<String> getImports() {
+    public List<Import> getImports() {
         return content.findLines(line -> line.startsWith("import"))
                 .stream()
-                .map(line -> line
-                    .replace("import ", "")
-                    .replace(";", ""))
+                .map(line -> new Import(line))
                 .toList();
     }
 
