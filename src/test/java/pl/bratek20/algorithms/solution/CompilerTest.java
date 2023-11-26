@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CompilerTest {
     private Compiler createCompiler() {
-        return new Compiler("src/test/java/pl/bratek20/algorithms/solution", "puzzles");
+        return new Compiler("src/test/java/pl/bratek20/algorithms/solution");
     }
 
     @Test

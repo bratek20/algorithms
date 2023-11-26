@@ -30,11 +30,6 @@ public class Compiler {
                 }
 
                 br.close();
-
-                // Perform compilation logic here with the content read from the file
-                // You can use JavaCompiler or another method to compile the source code
-
-                // For example, let's just return the content for demonstration purposes
                 return stringBuilder.toString();
             } else {
                 return "File not found: " + filePath;
