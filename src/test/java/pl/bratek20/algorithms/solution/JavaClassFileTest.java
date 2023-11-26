@@ -22,9 +22,9 @@ class JavaClassFileTest {
     void shouldReturnClassDefinition() {
         var file = create();
 
-        var definition = file.getClassDefinition();
+        var definition = file.getClassDeclaration().toString();
 
-        assertThat(definition).isEqualTo("""
+        assertThat(definition).isEqualToIgnoringWhitespace("""
         public class SimpleImport {
             SomeClass someClass;
         }

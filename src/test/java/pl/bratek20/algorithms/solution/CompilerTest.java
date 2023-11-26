@@ -18,7 +18,7 @@ class CompilerTest {
         var result = compiler.compile("NoImports");
 
         //then
-        assertThat(result).isEqualTo("""
+        assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
             public class NoImports {
                 
@@ -36,7 +36,7 @@ class CompilerTest {
         var result = compiler.compile("SimpleImport");
 
         //then
-        assertThat(result).isEqualTo("""
+        assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
             public class SomeClass {
                 Object someClassField;

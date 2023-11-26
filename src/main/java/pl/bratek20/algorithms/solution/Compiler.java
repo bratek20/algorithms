@@ -1,11 +1,5 @@
 package pl.bratek20.algorithms.solution;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Paths;
-
 public class Compiler {
     private final String modulesFolderPath;
     public Compiler(String modulesFolderPath) {
@@ -13,29 +7,17 @@ public class Compiler {
     }
 
     public String compile(String puzzleName) {
-        String rootPath = Paths.get("").toAbsolutePath().toString();
+        String filePath = modulesFolderPath + "/puzzles/" + puzzleName + ".java";
+        var file = new JavaClassFile(filePath);
 
-        String filePath = rootPath + "/" + modulesFolderPath + "/puzzles/" + puzzleName + ".java";
-        StringBuilder stringBuilder = new StringBuilder();
+        var contentBuilder = new FileContentBuilder();
+        contentBuilder
+            .addLine("class Solution {")
+            .addIndent(4)
+            .addContent(file.getClassDeclaration())
+            .removeIndent(4)
+            .addLine("}");
 
-        try {
-            File file = new File(filePath);
-
-            if (file.exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-
-                br.close();
-                return stringBuilder.toString();
-            } else {
-                return "File not found: " + filePath;
-            }
-        } catch (IOException e) {
-            return "Error reading file: " + e.getMessage();
-        }
+        return contentBuilder.build().toString();
     }
 }

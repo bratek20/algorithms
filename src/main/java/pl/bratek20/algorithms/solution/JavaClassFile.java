@@ -9,7 +9,7 @@ import java.util.List;
 
 public class JavaClassFile {
     private final String path;
-    private String content;
+    private FileContent content;
 
     public JavaClassFile(String path) {
         this.path = path;
@@ -19,15 +19,23 @@ public class JavaClassFile {
     @SneakyThrows
     private void readContent() {
         byte[] encodedBytes = Files.readAllBytes(Paths.get(path));
-        content = new String(encodedBytes, StandardCharsets.UTF_8);
+        var contentString = new String(encodedBytes, StandardCharsets.UTF_8);
+        content = new FileContent(contentString);
     }
 
     public List<String> getImports() {
-
-        return null;
+        return content.findLines(line -> line.startsWith("import"))
+                .stream()
+                .map(line -> line
+                    .replace("import ", "")
+                    .replace(";", ""))
+                .toList();
     }
 
-    public String getClassDefinition() {
-        return null;
+    public FileContent getClassDeclaration() {
+        var classDeclarationStartLine = content.findLine(line -> line.startsWith("public class")).orElseThrow();
+        return content.splitFromLine(classDeclarationStartLine);
     }
+
+
 }
