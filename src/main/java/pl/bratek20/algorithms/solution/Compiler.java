@@ -62,7 +62,8 @@ public class Compiler {
         file.getImports()
             .forEach(importLine -> compileForImport(importLine, builder));
 
-        builder.addContent(file.getClassDeclaration());
+        var content = file.getStaticClassDeclaration();
+        builder.addContent(content);
     }
 
     private void compileForImport(Import importLine, FileContentBuilder builder) {

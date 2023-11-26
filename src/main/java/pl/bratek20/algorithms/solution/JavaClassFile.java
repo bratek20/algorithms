@@ -30,11 +30,19 @@ public class JavaClassFile {
                 .toList();
     }
 
-    public FileContent getClassDeclaration() {
+    public FileContent getStaticClassDeclaration() {
         var classDeclarationStartLine = content.findLine(line -> line.contains("class"))
             .orElseGet(() -> content.findLine(line -> line.contains("interface"))
                 .orElseThrow(() -> new RuntimeException("Class declaration not found in file: " + path)));
-        return content.splitFromLine(classDeclarationStartLine);
+
+        var firstLine = classDeclarationStartLine
+            .replace("class", "static class")
+            .replace("interface", "static interface");
+
+        return new FileContentBuilder()
+            .addLine(firstLine)
+            .addContent(content.splitAfterLine(classDeclarationStartLine))
+            .build();
     }
 
 

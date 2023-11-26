@@ -36,7 +36,7 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-            public class NoImports {
+            public static class NoImports {
                 
             }
         }
@@ -54,11 +54,11 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-            public class SomeClass {
+            public static class SomeClass {
                 Object someClassField;
             }
             
-            public class SimpleImport {
+            public static class SimpleImport {
                 SomeClass someClass;
             }
         }
@@ -76,11 +76,11 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-            public class InPackageClass {
+            public static class InPackageClass {
                 Object inPackageClassField;
             }
             
-            public class InPackageImport {
+            public static class InPackageImport {
                 InPackageClass inPackageClass;
             }
         }
@@ -98,15 +98,15 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-             public class SomeClass {
+             public static class SomeClass {
                 Object someClassField;
             }
             
-            public class ClassReferencingOther {
+            public static class ClassReferencingOther {
                 SomeClass someClass;
             }
             
-            public class ReferencingImport {
+            public static class ReferencingImport {
                 ClassReferencingOther classReferencingOther;
             }
         }
@@ -124,7 +124,7 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-            public class NoImports {
+            public static class NoImports {
                 
             }
             
@@ -146,11 +146,11 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-             public class SomeClass {
+             public static class SomeClass {
                 Object someClassField;
             }
             
-            public class NoImports {
+            public static class NoImports {
                 
             }
         }
@@ -168,7 +168,7 @@ class CompilerTest {
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
         class Solution {
-            public class WithJavaImports {
+            public static class WithJavaImports {
                 
             }
         }
@@ -189,7 +189,7 @@ class CompilerTest {
         import java.util.ArrayList;
         
         class Solution {
-            public class NoImports {
+            public static class NoImports {
                 
             }
         }

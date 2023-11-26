@@ -32,10 +32,10 @@ public class FileContent {
         return List.of(content.split("(\r\n|\n)"));
     }
 
-    public FileContent splitFromLine(String line) {
+    public FileContent splitAfterLine(String line) {
         var lines = getLines();
         var lineIndex = lines.indexOf(line);
-        var linesToTake = lines.subList(lineIndex, lines.size());
+        var linesToTake = lines.subList(lineIndex + 1, lines.size());
         var newContent = String.join("\n", linesToTake);
         return new FileContent(newContent);
     }
