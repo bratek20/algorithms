@@ -31,7 +31,9 @@ public class JavaClassFile {
     }
 
     public FileContent getClassDeclaration() {
-        var classDeclarationStartLine = content.findLine(line -> line.contains(" class ")).orElseThrow();
+        var classDeclarationStartLine = content.findLine(line -> line.contains("class"))
+            .orElseGet(() -> content.findLine(line -> line.contains("interface"))
+                .orElseThrow(() -> new RuntimeException("Class declaration not found in file: " + path)));
         return content.splitFromLine(classDeclarationStartLine);
     }
 

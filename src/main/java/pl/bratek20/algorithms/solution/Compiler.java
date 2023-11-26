@@ -2,8 +2,11 @@ package pl.bratek20.algorithms.solution;
 
 public class Compiler {
     private final String modulesFolderPath;
-    public Compiler(String modulesFolderPath) {
+    private final boolean attachMain;
+
+    public Compiler(String modulesFolderPath, boolean attachMain) {
         this.modulesFolderPath = modulesFolderPath;
+        this.attachMain = attachMain;
     }
 
     public String compile(String puzzleName) {
@@ -15,25 +18,38 @@ public class Compiler {
             .addLine("class Solution {")
             .addIndent(4);
 
-        var imports = file.getImports();
-        imports.forEach(importLine -> {
-            var importFilePath = importToPath(importLine);
+        compileFile(file, contentBuilder);
 
-            var importFile = new JavaClassFile(importFilePath);
-            contentBuilder.addContent(importFile.getClassDeclaration());
-        });
+        if (attachMain) {
+            contentBuilder
+                .addContent(new FileContent("""
+                public static void main(String[] args) {
+                    new PuzzleSolver().solve(new %s());
+                }
+                """.formatted(puzzleName)));
+        }
 
         contentBuilder
-            .addContent(file.getClassDeclaration())
             .removeIndent(4)
             .addLine("}");
 
         return contentBuilder.build().toString();
     }
 
+    private void compileFile(JavaClassFile file, FileContentBuilder builder) {
+        var imports = file.getImports();
+        imports.forEach(importLine -> {
+            var importFilePath = importToPath(importLine);
+
+            var importFile = new JavaClassFile(importFilePath);
+            compileFile(importFile, builder);
+        });
+
+        builder.addContent(file.getClassDeclaration());
+    }
+
     private String importToPath(Import importLine) {
         var path = importLine.getPath();
-        //remove pl.bratek20.algorithms.solution
         var pathPart = path
             .replace("pl.bratek20.algorithms", "")
             .replace(".", "/");
@@ -47,7 +63,7 @@ public class Compiler {
             return;
         }
 
-        var compiler = new Compiler("src/main/java/pl/bratek20/algorithms");
+        var compiler = new Compiler("src/main/java/pl/bratek20/algorithms", true);
         System.out.println(compiler.compile(args[0]));
     }
 }
