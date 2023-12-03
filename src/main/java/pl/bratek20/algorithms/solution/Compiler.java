@@ -96,7 +96,11 @@ public class Compiler {
             "src/main/java/pl/bratek20/algorithms",
             true,
             List.of("pl.bratek20.algorithms.common.puzzle.PuzzleSolver"),
-            List.of("java.util.Scanner")
+            List.of(
+                "java.util.Scanner",
+                "java.util.LinkedList",
+                "java.util.Queue"
+            )
         );
 
         System.out.println(compiler.compile(args[0]));
