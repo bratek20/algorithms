@@ -5,8 +5,13 @@ import java.util.Scanner;
 public class SystemInput implements Input {
 
     @Override
-    public String nextLine() {
+    public String readLine() {
         var scanner = new Scanner(System.in);
         return scanner.nextLine();
+    }
+
+    @Override
+    public int readInt() {
+        return Integer.parseInt(readLine());
     }
 }

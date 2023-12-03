@@ -7,7 +7,7 @@ public class RetroTypewriterArt extends Puzzle {
 
     @Override
     public void solve() {
-        String recipe = in.nextLine();
+        String recipe = in.readLine();
 
         var chunks = recipe.split(" ");
         for (var chunk : chunks) {
