@@ -1,6 +1,16 @@
 package pl.bratek20.algorithms.common.input;
 
-public interface Input {
-    String readLine();
-    int readInt();
+public class Input {
+    private final NextLineProvider nextLineProvider;
+
+    public Input(NextLineProvider nextLineProvider) {
+        this.nextLineProvider = nextLineProvider;
+    }
+
+    public String readLine() {
+        return nextLineProvider.readLine();
+    }
+    public int readInt() {
+        return Integer.parseInt(readLine());
+    }
 }
