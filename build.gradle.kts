@@ -1,6 +1,10 @@
 plugins {
-    id("java")
+    application
     id("io.freefair.lombok") version "8.4"
+}
+
+application {
+    mainClass = "pl.bratek20.algorithms.solution.Compiler"
 }
 
 group = "pl.bratek20.algorithms"
