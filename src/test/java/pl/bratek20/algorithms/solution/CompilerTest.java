@@ -195,4 +195,35 @@ class CompilerTest {
         }
         """);
     }
+
+    @Test
+    void shouldImportClassAtMostOnce() {
+        //given
+        var compiler = createCompiler();
+
+        //when
+        var result = compiler.compile("SameImportInImportedClasses");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+            class Solution {
+                public static class A {
+                    
+                }
+                
+                public static class Class1ReferencingA {
+                    A a;
+                }
+                
+                public static class Class2ReferencingA {
+                    A a;
+                }
+                
+                public static class SameImportInImportedClasses {
+                        Class1ReferencingA class1ReferencingA;
+                        Class2ReferencingA class2ReferencingA;
+                }
+            }
+            """);
+    }
 }
