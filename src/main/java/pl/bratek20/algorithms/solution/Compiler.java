@@ -2,6 +2,7 @@ package pl.bratek20.algorithms.solution;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ public class Compiler {
     private final boolean attachMain;
     private final List<String> compileImports;
     private final List<String> solutionImports;
+    private final List<String> alreadyImported = new ArrayList<>();
 
     public Compiler(String modulesFolderPath) {
         this(modulesFolderPath, false);
@@ -71,6 +73,11 @@ public class Compiler {
     private void compileForImport(Import importLine, FileContentBuilder builder) {
         var importFilePath = importToPath(importLine);
         importFilePath.ifPresent(path -> {
+            if (alreadyImported.contains(path)) {
+                return;
+            }
+
+            alreadyImported.add(path);
             var importFile = new JavaClassFile(path);
             compileFile(importFile, builder);
         });
