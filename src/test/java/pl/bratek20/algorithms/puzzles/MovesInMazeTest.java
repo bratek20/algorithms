@@ -17,7 +17,8 @@ class MovesInMazeTest extends PuzzleTest {
         return List.of(
             basic(),
             unreachable(),
-            noWalls()
+            noWalls(),
+            throughBorders()
         );
     }
 
@@ -69,6 +70,22 @@ class MovesInMazeTest extends PuzzleTest {
                     212
                     101
                     212
+                    """
+        );
+    }
+
+    private TestData throughBorders() {
+        return new TestData(
+            """
+                    4 3
+                    ####
+                    .#S.
+                    ####
+                    """,
+            """
+                    ####
+                    2#01
+                    ####
                     """
         );
     }

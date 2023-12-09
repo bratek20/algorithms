@@ -27,6 +27,26 @@ public class MovesInMaze extends Puzzle {
         }
     }
 
+    int fixI(int i) {
+        if (i < 0) {
+            return h - 1;
+        }
+        if (i >= h) {
+            return 0;
+        }
+        return i;
+    }
+
+    int fixJ(int j) {
+        if (j < 0) {
+            return w - 1;
+        }
+        if (j >= w) {
+            return 0;
+        }
+        return j;
+    }
+
     void calcDist() {
         Queue<Pair> queue = new LinkedList<>();
         for (int i = 0; i < h; i++) {
@@ -46,11 +66,9 @@ public class MovesInMaze extends Puzzle {
             int[] di = new int[] {1, -1, 0, 0};
             int[] dj = new int[] {0, 0, 1, -1};
             for (int k = 0; k < 4; k++) {
-                int newI = i + di[k];
-                int newJ = j + dj[k];
-                if (newI < 0 || newI >= h || newJ < 0 || newJ >= w) {
-                    continue;
-                }
+                int newI = fixI(i + di[k]);
+                int newJ = fixJ(j + dj[k]);
+
                 if (maze[newI][newJ] == '#') {
                     continue;
                 }
