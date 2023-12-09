@@ -1,5 +1,7 @@
 package pl.bratek20.algorithms.solution;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +105,16 @@ public class Compiler {
             )
         );
 
-        System.out.println(compiler.compile(args[0]));
+        var puzzleName = args[0];
+        var puzzle = compiler.compile(puzzleName);
+
+        copyToClipboard(puzzle);
+        System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard");
+    }
+
+    private static void copyToClipboard(String text) {
+        var clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        var transferable = new StringSelection(text);
+        clipboard.setContents(transferable, null);
     }
 }
