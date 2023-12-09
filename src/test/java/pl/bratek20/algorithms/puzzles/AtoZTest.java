@@ -3,6 +3,8 @@ package pl.bratek20.algorithms.puzzles;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
 
+import java.util.List;
+
 class AtoZTest extends PuzzleTest {
 
     @Override
@@ -11,36 +13,36 @@ class AtoZTest extends PuzzleTest {
     }
 
     @Override
-    protected String testInput() {
-        return """
-            10
-            qadnhwbnyw
-            iiopcygydk
-            bahlfiojdc
-            cfijtdmkgf
-            dzhkliplzg
-            efgrmpqryx
-            loehnovstw
-            jrsacymeuv
-            fpnocpdkrs
-            jlmsvwvuih
-            """;
-    }
-
-    @Override
-    protected String testOutput() {
-        return """
-            ----------
-            ----------
-            ba--------
-            c-ij------
-            d-hkl---z-
-            efg-mpqryx
-            ----no-stw
-            --------uv
-            ----------
-            ----------
-            """;
+    protected List<TestData> testData() {
+        return List.of(
+                new TestData(
+                        """
+                                10
+                                qadnhwbnyw
+                                iiopcygydk
+                                bahlfiojdc
+                                cfijtdmkgf
+                                dzhkliplzg
+                                efgrmpqryx
+                                loehnovstw
+                                jrsacymeuv
+                                fpnocpdkrs
+                                jlmsvwvuih
+                                """,
+                        """
+                                ----------
+                                ----------
+                                ba--------
+                                c-ij------
+                                d-hkl---z-
+                                efg-mpqryx
+                                ----no-stw
+                                --------uv
+                                ----------
+                                ----------
+                                """
+                )
+        );
     }
 
 }

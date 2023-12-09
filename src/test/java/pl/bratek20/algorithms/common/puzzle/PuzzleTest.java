@@ -4,25 +4,32 @@ import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.common.input.TestNextLineProvider;
 import pl.bratek20.algorithms.common.output.TestOutput;
 
+import java.util.List;
+
 public abstract class PuzzleTest {
+    public record TestData(String input, String output) {}
+
     protected abstract Puzzle createSolution();
-    protected abstract String testInput();
-    protected abstract String testOutput();
+    protected abstract List<TestData> testData();
 
     @Test
     void testSolution() {
-       //given
-       var solution = createSolution();
-       var input = new TestNextLineProvider();
-       var output = new TestOutput();
+        testData().forEach(this::testForData);
+    }
 
-       solution.init(input, output);
-       input.init(testInput());
+    private void testForData(TestData testData) {
+        //given
+        var solution = createSolution();
+        var input = new TestNextLineProvider();
+        var output = new TestOutput();
 
-       //when
-       solution.solve();
+        solution.init(input, output);
+        input.init(testData.input());
 
-       //then
-       output.assertEquals(testOutput());
+        //when
+        solution.solve();
+
+        //then
+        output.assertEquals(testData.output());
     }
 }

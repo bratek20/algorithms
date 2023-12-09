@@ -48,6 +48,9 @@ public class MovesInMaze extends Puzzle {
             for (int k = 0; k < 4; k++) {
                 int newI = i + di[k];
                 int newJ = j + dj[k];
+                if (newI < 0 || newI >= h || newJ < 0 || newJ >= w) {
+                    continue;
+                }
                 if (maze[newI][newJ] == '#') {
                     continue;
                 }
@@ -60,6 +63,9 @@ public class MovesInMaze extends Puzzle {
     }
 
     char distToChar(int d) {
+        if (d == Integer.MAX_VALUE) {
+            return '.';
+        }
         if (d < 10) {
             return (char) ('0' + d);
         }
