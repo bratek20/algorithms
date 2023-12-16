@@ -35,7 +35,7 @@ public class MovesInMaze extends Puzzle implements BFS.Strategy<Pair> {
     }
 
     void read() {
-        maze = Array2DReader.readChar(in);
+        maze = Array2DReader.readCharRectangle(in);
         bfs = new BFS<>(this);
     }
 

@@ -1,11 +1,9 @@
 package pl.bratek20.algorithms.common.bfs;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BFS<N> {
+
     public interface Strategy<N2> {
         List<N2> getNeighbours(N2 node);
     }
@@ -57,5 +55,9 @@ public class BFS<N> {
             }
         }
         return path;
+    }
+
+    public List<N> getVisited() {
+        return new ArrayList<>(dist.keySet());
     }
 }

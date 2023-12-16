@@ -31,6 +31,14 @@ public class Array2D<T> {
         return new Pair(fixI(i), fixJ(j));
     }
 
+    public boolean isInside(int i, int j) {
+        return i >= 0 && i < height && j >= 0 && j < width;
+    }
+
+    public boolean isInside(Pair pair) {
+        return isInside(pair.getLeft(), pair.getRight());
+    }
+
     private int fixI(int i) {
         return ((i % height) + height) % height;
     }
