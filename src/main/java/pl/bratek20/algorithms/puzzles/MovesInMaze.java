@@ -2,6 +2,7 @@ package pl.bratek20.algorithms.puzzles;
 
 import pl.bratek20.algorithms.common.array2d.Array2D;
 import pl.bratek20.algorithms.common.array2d.Array2DReader;
+import pl.bratek20.algorithms.common.array2d.Array2DWriter;
 import pl.bratek20.algorithms.common.bfs.BFS;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
@@ -55,16 +56,12 @@ public class MovesInMaze extends Puzzle implements BFS.Strategy<Pair> {
 
     void write() {
         maze.forEach((c, p) -> {
-            if (c == '#') {
-                out.print('#');
-            } else {
+            if (c != '#') {
                 var dist = bfs.getDist(p);
-                out.print(distToChar(dist));
-            }
-            if (p.getRight() == maze.getWidth() - 1) {
-                out.println();
+                maze.set(p, distToChar(dist));
             }
         });
+        Array2DWriter.writeChar(out, maze);
     }
 
     @Override
