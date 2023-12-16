@@ -17,11 +17,7 @@ class CompilerTest {
 
 
     private Compiler createCompilerWithCompileImports(List<String> imports) {
-        return new Compiler("src/test/resources/solution", false, imports, List.of());
-    }
-
-    private Compiler createCompilerWithSolutionImports(List<String> imports) {
-        return new Compiler("src/test/resources/solution", false, List.of(), imports);
+        return new Compiler("src/test/resources/solution", false, imports);
     }
 
 
@@ -158,30 +154,12 @@ class CompilerTest {
     }
 
     @Test
-    void shouldSkipJavaImports() {
+    void shouldPutExternalImportsAsSolutionImports() {
         //given
         var compiler = createCompiler();
 
         //when
-        var result = compiler.compile("WithJavaImports");
-
-        //then
-        assertThat(result).isEqualToIgnoringWhitespace("""
-        class Solution {
-            public static class WithJavaImports {
-                
-            }
-        }
-        """);
-    }
-
-    @Test
-    void shouldAddSolutionImports() {
-        //given
-        var compiler = createCompilerWithSolutionImports(List.of("java.util.List", "java.util.ArrayList"));
-
-        //when
-        var result = compiler.compile("NoImports");
+        var result = compiler.compile("ExternalImports");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -189,7 +167,7 @@ class CompilerTest {
         import java.util.ArrayList;
         
         class Solution {
-            public static class NoImports {
+            public static class ExternalImports {
                 
             }
         }

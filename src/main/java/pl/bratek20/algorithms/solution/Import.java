@@ -11,7 +11,15 @@ public class Import {
         return names[names.length - 1];
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public String getPath() {
         return value.replace("import ", "").replace(";", "");
+    }
+
+    public boolean isExternal() {
+        return !getPath().startsWith("pl.bratek20.algorithms");
     }
 }
