@@ -1,5 +1,11 @@
 package pl.bratek20.algorithms.common.array2d;
 
+import pl.bratek20.algorithms.common.utils.Pair;
+
+import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Predicate;
+
 public class Array2D<T> {
     private final int width;
     private final int height;
@@ -35,5 +41,25 @@ public class Array2D<T> {
 
     public int getHeight() {
         return height;
+    }
+
+    public Optional<Pair> find(Predicate<T> predicate) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                var val = value[i][j];
+                if (predicate.test(val)) {
+                    return Optional.of(new Pair(i, j));
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    public void forEach(BiConsumer<T, Pair> consumer) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                consumer.accept(value[i][j], new Pair(i, j));
+            }
+        }
     }
 }

@@ -8,20 +8,17 @@ import pl.bratek20.algorithms.common.utils.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 // https://www.codingame.com/ide/puzzle/moves-in-maze
 public class MovesInMaze extends Puzzle {
     int w, h;
     Array2D<Character> maze;
-    Array2D<Integer> dist;
     BFS<Pair> bfs;
 
     void read() {
         maze = Array2DReader.readChar(in);
         w = maze.getWidth();
         h = maze.getHeight();
-        dist = new Array2D<>(w, h, Integer.MAX_VALUE);
 
         bfs = new BFS<>(new BFS.Strategy<>() {
             @Override
@@ -67,22 +64,8 @@ public class MovesInMaze extends Puzzle {
     }
 
     void calcDist() {
-        Pair start = null;
-        for (int i = 0; i < h && start == null; i++) {
-            for (int j = 0; j < w && start == null; j++) {
-                if (maze.get(i, j) == 'S') {
-                    start = new Pair(i, j);
-                }
-            }
-        }
-
+        Pair start = maze.find(c -> c == 'S').orElseThrow();
         bfs.run(start);
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                dist.set(i, j, bfs.getDist(new Pair(i, j)));
-            }
-        }
     }
 
     char distToChar(int d) {
@@ -96,16 +79,17 @@ public class MovesInMaze extends Puzzle {
     }
 
     void write() {
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if (maze.get(i, j) == '#') {
-                    out.print('#');
-                } else {
-                    out.print(distToChar(dist.get(i, j)));
-                }
+        maze.forEach((c, p) -> {
+            if (c == '#') {
+                out.print('#');
+            } else {
+                var dist = bfs.getDist(p);
+                out.print(distToChar(dist));
             }
-            out.println();
-        }
+            if (p.getRight() == w - 1) {
+                out.println();
+            }
+        });
     }
 
     @Override
