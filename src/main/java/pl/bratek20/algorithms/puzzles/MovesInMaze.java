@@ -1,5 +1,6 @@
 package pl.bratek20.algorithms.puzzles;
 
+import pl.bratek20.algorithms.common.array2d.Array2D;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
 
@@ -9,20 +10,20 @@ import java.util.Queue;
 // https://www.codingame.com/ide/puzzle/moves-in-maze
 public class MovesInMaze extends Puzzle {
     int w, h;
-    char[][] maze;
-    int [][] dist;
+    Array2D<Character> maze;
+    Array2D<Integer> dist;
 
     void read() {
         var p = in.readIntPair();
         w = p.getLeft();
         h = p.getRight();
-        maze = new char[h][w];
-        dist = new int[h][w];
+        maze = new Array2D<>(w, h, ' ');
+        dist = new Array2D<>(w, h, Integer.MAX_VALUE);
 
         for (int i = 0; i < h; i++) {
-            maze[i] = in.readLine().toCharArray();
+            var charArray = in.readLine().toCharArray();
             for (int j = 0; j < w; j++) {
-                dist[i][j] = Integer.MAX_VALUE;
+                maze.set(i, j, charArray[j]);
             }
         }
     }
@@ -51,9 +52,9 @@ public class MovesInMaze extends Puzzle {
         Queue<Pair> queue = new LinkedList<>();
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                if ('S' == maze[i][j]) {
+                if ('S' == maze.get(i, j)) {
                     queue.add(new Pair(i, j));
-                    dist[i][j] = 0;
+                    dist.set(i, j, 0);
                 }
             }
         }
@@ -69,11 +70,11 @@ public class MovesInMaze extends Puzzle {
                 int newI = fixI(i + di[k]);
                 int newJ = fixJ(j + dj[k]);
 
-                if (maze[newI][newJ] == '#') {
+                if (maze.get(newI, newJ) == '#') {
                     continue;
                 }
-                if (dist[newI][newJ] > dist[i][j] + 1) {
-                    dist[newI][newJ] = dist[i][j] + 1;
+                if (dist.get(newI, newJ) > dist.get(i, j) + 1) {
+                    dist.set(newI, newJ, dist.get(i, j) + 1);
                     queue.add(new Pair(newI, newJ));
                 }
             }
@@ -93,10 +94,10 @@ public class MovesInMaze extends Puzzle {
     void write() {
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                if (maze[i][j] == '#') {
+                if (maze.get(i, j) == '#') {
                     out.print('#');
                 } else {
-                    out.print(distToChar(dist[i][j]));
+                    out.print(distToChar(dist.get(i, j)));
                 }
             }
             out.println();

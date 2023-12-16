@@ -23,7 +23,7 @@ class MovesInMazeTest extends PuzzleTest {
     }
 
     private TestData basic() {
-        return new TestData(
+        return new TestData("basic",
             """
                     10 5
                     ##########
@@ -43,7 +43,7 @@ class MovesInMazeTest extends PuzzleTest {
     }
 
     private TestData unreachable() {
-        return new TestData(
+        return new TestData("unreachable",
             """
                     5 3
                     #####
@@ -59,7 +59,7 @@ class MovesInMazeTest extends PuzzleTest {
     }
 
     private TestData noWalls() {
-        return new TestData(
+        return new TestData("noWalls",
             """
                     3 3
                     ...
@@ -75,7 +75,7 @@ class MovesInMazeTest extends PuzzleTest {
     }
 
     private TestData throughBorders() {
-        return new TestData(
+        return new TestData("throughBorders",
             """
                     4 3
                     ####

@@ -15,7 +15,7 @@ class HexagonalMazeTest extends PuzzleTest {
     @Override
     protected List<TestData> testData() {
         return List.of(
-                new TestData(
+                new TestData("example",
                         """
                                 5 6
                                 #####

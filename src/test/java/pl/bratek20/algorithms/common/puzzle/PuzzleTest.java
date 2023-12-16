@@ -7,7 +7,7 @@ import pl.bratek20.algorithms.common.output.TestOutput;
 import java.util.List;
 
 public abstract class PuzzleTest {
-    public record TestData(String input, String output) {}
+    public record TestData(String name, String input, String output) {}
 
     protected abstract Puzzle createSolution();
     protected abstract List<TestData> testData();
@@ -18,6 +18,8 @@ public abstract class PuzzleTest {
     }
 
     private void testForData(TestData testData) {
+        System.out.println("Testing " + testData.name());
+
         //given
         var solution = createSolution();
         var input = new TestNextLineProvider();

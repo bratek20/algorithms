@@ -15,7 +15,7 @@ class RetroTypewriterArtTest extends PuzzleTest {
     @Override
     protected List<TestData> testData() {
         return List.of(
-            new TestData(
+            new TestData("example",
                 """
                 1sp 1/ 1bS 1_ 1/ 1bS nl 1( 1sp 1o 1. 1o 1sp 1) nl 1sp 1> 1sp 1^ 1sp 1< nl 2sp 3|
                 """,
