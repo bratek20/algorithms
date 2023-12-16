@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Queue;
 
 public class BFS<N> {
-    public abstract static class Strategy<N2> {
-        public abstract List<N2> getNeighbours(N2 node);
+    public interface Strategy<N2> {
+        List<N2> getNeighbours(N2 node);
     }
 
     private final HashMap<N, Integer> dist = new HashMap<>();

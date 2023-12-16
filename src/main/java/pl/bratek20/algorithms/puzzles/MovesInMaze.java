@@ -10,32 +10,32 @@ import java.util.LinkedList;
 import java.util.List;
 
 // https://www.codingame.com/ide/puzzle/moves-in-maze
-public class MovesInMaze extends Puzzle {
+public class MovesInMaze extends Puzzle implements BFS.Strategy<Pair> {
     Array2D<Character> maze;
     BFS<Pair> bfs;
 
+    @Override
+    public List<Pair> getNeighbours(Pair node) {
+        var i = node.getLeft();
+        var j = node.getRight();
+
+        int[] di = new int[] {1, -1, 0, 0};
+        int[] dj = new int[] {0, 0, 1, -1};
+        List<Pair> neighbours = new LinkedList<>();
+        for (int k = 0; k < 4; k++) {
+            var newP = maze.fix(i + di[k], j + dj[k]);
+
+            if (maze.get(newP) == '#') {
+                continue;
+            }
+            neighbours.add(newP);
+        }
+        return neighbours;
+    }
+
     void read() {
         maze = Array2DReader.readChar(in);
-        bfs = new BFS<>(new BFS.Strategy<>() {
-            @Override
-            public List<Pair> getNeighbours(Pair node) {
-                var i = node.getLeft();
-                var j = node.getRight();
-
-                int[] di = new int[] {1, -1, 0, 0};
-                int[] dj = new int[] {0, 0, 1, -1};
-                List<Pair> neighbours = new LinkedList<>();
-                for (int k = 0; k < 4; k++) {
-                    var newP = maze.fix(i + di[k], j + dj[k]);
-
-                    if (maze.get(newP) == '#') {
-                        continue;
-                    }
-                    neighbours.add(newP);
-                }
-                return neighbours;
-            }
-        });
+        bfs = new BFS<>(this);
     }
 
     void calcDist() {
