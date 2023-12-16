@@ -2,10 +2,12 @@ package pl.bratek20.algorithms.puzzles;
 
 import pl.bratek20.algorithms.common.array2d.Array2D;
 import pl.bratek20.algorithms.common.array2d.Array2DReader;
+import pl.bratek20.algorithms.common.bfs.BFS;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 // https://www.codingame.com/ide/puzzle/moves-in-maze
@@ -13,12 +15,35 @@ public class MovesInMaze extends Puzzle {
     int w, h;
     Array2D<Character> maze;
     Array2D<Integer> dist;
+    BFS<Pair> bfs;
 
     void read() {
         maze = Array2DReader.readChar(in);
         w = maze.getWidth();
         h = maze.getHeight();
         dist = new Array2D<>(w, h, Integer.MAX_VALUE);
+
+        bfs = new BFS<>(new BFS.Strategy<>() {
+            @Override
+            public List<Pair> getNeighbours(Pair node) {
+                var i = node.getLeft();
+                var j = node.getRight();
+
+                int[] di = new int[] {1, -1, 0, 0};
+                int[] dj = new int[] {0, 0, 1, -1};
+                List<Pair> neighbours = new LinkedList<>();
+                for (int k = 0; k < 4; k++) {
+                    int newI = fixI(i + di[k]);
+                    int newJ = fixJ(j + dj[k]);
+
+                    if (maze.get(newI, newJ) == '#') {
+                        continue;
+                    }
+                    neighbours.add(new Pair(newI, newJ));
+                }
+                return neighbours;
+            }
+        });
     }
 
     int fixI(int i) {
@@ -42,34 +67,20 @@ public class MovesInMaze extends Puzzle {
     }
 
     void calcDist() {
-        Queue<Pair> queue = new LinkedList<>();
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if ('S' == maze.get(i, j)) {
-                    queue.add(new Pair(i, j));
-                    dist.set(i, j, 0);
+        Pair start = null;
+        for (int i = 0; i < h && start == null; i++) {
+            for (int j = 0; j < w && start == null; j++) {
+                if (maze.get(i, j) == 'S') {
+                    start = new Pair(i, j);
                 }
             }
         }
 
-        while (!queue.isEmpty()) {
-            var p = queue.poll();
-            var i = p.getLeft();
-            var j = p.getRight();
+        bfs.run(start);
 
-            int[] di = new int[] {1, -1, 0, 0};
-            int[] dj = new int[] {0, 0, 1, -1};
-            for (int k = 0; k < 4; k++) {
-                int newI = fixI(i + di[k]);
-                int newJ = fixJ(j + dj[k]);
-
-                if (maze.get(newI, newJ) == '#') {
-                    continue;
-                }
-                if (dist.get(newI, newJ) > dist.get(i, j) + 1) {
-                    dist.set(newI, newJ, dist.get(i, j) + 1);
-                    queue.add(new Pair(newI, newJ));
-                }
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                dist.set(i, j, bfs.getDist(new Pair(i, j)));
             }
         }
     }

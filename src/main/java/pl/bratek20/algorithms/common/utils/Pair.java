@@ -16,4 +16,28 @@ public class Pair {
     public int getRight() {
         return right;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Pair pair = (Pair) o;
+
+        if (left != pair.left) {
+            return false;
+        }
+        return right == pair.right;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = left;
+        result = 31 * result + right;
+        return result;
+    }
 }
