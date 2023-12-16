@@ -42,4 +42,20 @@ public class BFS<N> {
     private void setDist(N node, int value) {
         dist.put(node, value);
     }
+
+    public List<N> getShortestPath(N from) {
+        List<N> path = new LinkedList<>();
+        path.add(from);
+        while (getDist(from) != 0) {
+            var neighbours = strategy.getNeighbours(from);
+            for (var neighbour : neighbours) {
+                if (getDist(neighbour) == getDist(from) - 1) {
+                    path.add(neighbour);
+                    from = neighbour;
+                    break;
+                }
+            }
+        }
+        return path;
+    }
 }

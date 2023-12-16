@@ -51,6 +51,10 @@ public class Array2D<T> {
         value[i][j] = val;
     }
 
+    public void set(Pair pair, T val) {
+        set(pair.getLeft(), pair.getRight(), val);
+    }
+
     public int getWidth() {
         return width;
     }

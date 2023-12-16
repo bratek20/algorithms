@@ -1,87 +1,19 @@
 package pl.bratek20.algorithms.puzzles;
 
+import pl.bratek20.algorithms.common.array2d.Array2D;
+import pl.bratek20.algorithms.common.array2d.Array2DReader;
+import pl.bratek20.algorithms.common.array2d.Array2DWriter;
+import pl.bratek20.algorithms.common.bfs.BFS;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
 
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 
 // https://www.codingame.com/ide/puzzle/hexagonal-maze
-public class HexagonalMaze extends Puzzle {
-    int w, h;
-    char[][] maze;
-    int [][] dist;
-    boolean [][] shortestPath;
-
-    void read() {
-        var p = in.readIntPair();
-        w = p.getLeft();
-        h = p.getRight();
-        maze = new char[h][w];
-        dist = new int[h][w];
-        shortestPath = new boolean[h][w];
-
-        for (int i = 0; i < h; i++) {
-            maze[i] = in.readLine().toCharArray();
-            for (int j = 0; j < w; j++) {
-                dist[i][j] = Integer.MAX_VALUE;
-                shortestPath[i][j] = false;
-            }
-        }
-    }
-
-    int fixI(int i) {
-        if (i < 0) {
-            return h - 1;
-        }
-        if (i >= h) {
-            return 0;
-        }
-        return i;
-    }
-
-    int fixJ(int j) {
-        if (j < 0) {
-            return w - 1;
-        }
-        if (j >= w) {
-            return 0;
-        }
-        return j;
-    }
-
-    void calcDist() {
-        Queue<Pair> queue = new LinkedList<>();
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if ('S' == maze[i][j]) {
-                    queue.add(new Pair(i, j));
-                    dist[i][j] = 0;
-                }
-            }
-        }
-
-        while (!queue.isEmpty()) {
-            var p = queue.poll();
-            var i = p.getLeft();
-            var j = p.getRight();
-
-            int[] di = getDi(i);
-            int[] dj = getDj(i);
-            for (int k = 0; k < 6; k++) {
-                int newI = fixI(i + di[k]);
-                int newJ = fixJ(j + dj[k]);
-
-                if (maze[newI][newJ] == '#') {
-                    continue;
-                }
-                if (dist[newI][newJ] > dist[i][j] + 1) {
-                    dist[newI][newJ] = dist[i][j] + 1;
-                    queue.add(new Pair(newI, newJ));
-                }
-            }
-        }
-    }
+public class HexagonalMaze extends Puzzle implements BFS.Strategy<Pair> {
+    Array2D<Character> maze;
+    BFS<Pair> bfs;
 
     int[] getDi(int i) {
         return new int[] {-1, -1, 0, 0, 1, 1};
@@ -96,60 +28,49 @@ public class HexagonalMaze extends Puzzle {
         }
     }
 
+    @Override
+    public List<Pair> getNeighbours(Pair node) {
+        var i = node.getLeft();
+        var j = node.getRight();
+
+        int[] di = getDi(i);
+        int[] dj = getDj(i);
+        List<Pair> neighbours = new LinkedList<>();
+        for (int k = 0; k < 6; k++) {
+            var newP = maze.fix(i + di[k], j + dj[k]);
+
+            if (maze.get(newP) == '#') {
+                continue;
+            }
+            neighbours.add(newP);
+        }
+        return neighbours;
+    }
+
+    void read() {
+        maze = Array2DReader.readChar(in);
+        bfs = new BFS<>(this);
+    }
+
     void calcShortestPath() {
-        Queue<Pair> queue = new LinkedList<>();
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if ('E' == maze[i][j]) {
-                    queue.add(new Pair(i, j));
-                    shortestPath[i][j] = true;
-                }
+        Pair start = maze.find(c -> c == 'S').orElseThrow();
+        bfs.run(start);
+
+        Pair end = maze.find(c -> c == 'E').orElseThrow();
+        bfs.getShortestPath(end).forEach(p -> {
+            if (maze.get(p) == '_') {
+                maze.set(p, '.');
             }
-        }
-
-        while (!queue.isEmpty()) {
-            var p = queue.poll();
-            var i = p.getLeft();
-            var j = p.getRight();
-
-            int[] di = getDi(i);
-            int[] dj = getDj(i);
-            for (int k = 0; k < 6; k++) {
-                int newI = fixI(i + di[k]);
-                int newJ = fixJ(j + dj[k]);
-
-                if (maze[newI][newJ] == '#') {
-                    continue;
-                }
-                if (dist[newI][newJ] == dist[i][j] - 1) {
-                    shortestPath[newI][newJ] = true;
-                    queue.add(new Pair(newI, newJ));
-                }
-            }
-        }
+        });
     }
 
     void write() {
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                if (maze[i][j] == '#' || maze[i][j] == 'S' || maze[i][j] == 'E') {
-                    out.print(maze[i][j]);
-                } else if (shortestPath[i][j]) {
-                    out.print('.');
-                }
-                else {
-                    out.print('_');
-                }
-            }
-            out.println();
-        }
+        Array2DWriter.writeChar(out, maze);
     }
 
     @Override
     public void solve() {
         read();
-
-        calcDist();
 
         calcShortestPath();
 
