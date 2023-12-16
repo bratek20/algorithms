@@ -1,10 +1,12 @@
 package pl.bratek20.algorithms.puzzles;
 
+import pl.bratek20.algorithms.common.array.Array;
 import pl.bratek20.algorithms.common.array2d.Array2D;
 import pl.bratek20.algorithms.common.array2d.Array2DReader;
 import pl.bratek20.algorithms.common.bfs.BFS;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
+import pl.bratek20.algorithms.common.utils.Variable;
 
 import java.util.*;
 
@@ -33,28 +35,24 @@ public class LongestCoast extends Puzzle implements BFS.Strategy<Pair> {
         return neighbours;
     }
 
-    int nextIndex = 1;
-    void incrementNextIndex() {
-        nextIndex++;
-    }
 
     @Override
     public void solve() {
         map = Array2DReader.readCharSquare(in);
 
         indexes = new Array2D<>(map.getHeight(), map.getWidth(), -1);
+        final var nextIndex = new Variable<>(1);
         map.forEach((c, p) -> {
             if (c == LAND && indexes.get(p) == -1) {
                 var bfs = new BFS<>(this);
                 bfs.run(p);
 
-                bfs.getVisited().forEach(p2 -> indexes.set(p2, nextIndex));
-                incrementNextIndex();
+                bfs.getVisited().forEach(p2 -> indexes.set(p2, nextIndex.get()));
+                nextIndex.set(nextIndex.get() + 1);
             }
         });
 
-        //Array needed to count coast length per index
-        List<Integer> coastLengths = new ArrayList<>(nextIndex+1);
+        Array<Integer> coastLengths = new Array<>(nextIndex.get(), 0);
         map.forEach((c, p) -> {
             if (c == WATER) {
                 int[] di = new int[] {1, -1, 0, 0};
@@ -70,16 +68,14 @@ public class LongestCoast extends Puzzle implements BFS.Strategy<Pair> {
             }
         });
 
-        //Find max coast lenght and index and print it
-        int max = 0;
-        int maxIndex = 0;
-        for (int i = 0; i < coastLengths.size(); i++) {
-            if (coastLengths.get(i) > max) {
-                max = coastLengths.get(i);
-                maxIndex = i;
+        final var max = new Variable<>(0);
+        final var maxIndex = new Variable<>(1);
+        coastLengths.forEach((length, index) -> {
+            if (length > max.get()) {
+                max.set(length);
+                maxIndex.set(index);
             }
-        }
-        out.println(maxIndex + " " + max);
+        });
+        out.print(maxIndex + " " + max);
     }
-
 }

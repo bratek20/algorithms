@@ -11,6 +11,16 @@ public class TestOutput implements Output {
     }
 
     @Override
+    public void print(String s) {
+        expected += s;
+    }
+
+    @Override
+    public void println(String s) {
+        expected += s + "\n";
+    }
+
+    @Override
     public void println() {
         expected += "\n";
     }

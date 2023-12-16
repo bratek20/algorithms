@@ -23,6 +23,13 @@ class LongestCoastTest extends PuzzleTest {
                     ~~#
                     """,
                     "1 3"
+                ),
+            new TestData("no water",
+                """
+                    1
+                    ###
+                    """,
+                    "1 0"
                 )
         );
     }
