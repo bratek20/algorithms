@@ -11,15 +11,11 @@ import java.util.List;
 
 // https://www.codingame.com/ide/puzzle/moves-in-maze
 public class MovesInMaze extends Puzzle {
-    int w, h;
     Array2D<Character> maze;
     BFS<Pair> bfs;
 
     void read() {
         maze = Array2DReader.readChar(in);
-        w = maze.getWidth();
-        h = maze.getHeight();
-
         bfs = new BFS<>(new BFS.Strategy<>() {
             @Override
             public List<Pair> getNeighbours(Pair node) {
@@ -30,37 +26,16 @@ public class MovesInMaze extends Puzzle {
                 int[] dj = new int[] {0, 0, 1, -1};
                 List<Pair> neighbours = new LinkedList<>();
                 for (int k = 0; k < 4; k++) {
-                    int newI = fixI(i + di[k]);
-                    int newJ = fixJ(j + dj[k]);
+                    var newP = maze.fix(i + di[k], j + dj[k]);
 
-                    if (maze.get(newI, newJ) == '#') {
+                    if (maze.get(newP) == '#') {
                         continue;
                     }
-                    neighbours.add(new Pair(newI, newJ));
+                    neighbours.add(newP);
                 }
                 return neighbours;
             }
         });
-    }
-
-    int fixI(int i) {
-        if (i < 0) {
-            return h - 1;
-        }
-        if (i >= h) {
-            return 0;
-        }
-        return i;
-    }
-
-    int fixJ(int j) {
-        if (j < 0) {
-            return w - 1;
-        }
-        if (j >= w) {
-            return 0;
-        }
-        return j;
     }
 
     void calcDist() {
@@ -86,7 +61,7 @@ public class MovesInMaze extends Puzzle {
                 var dist = bfs.getDist(p);
                 out.print(distToChar(dist));
             }
-            if (p.getRight() == w - 1) {
+            if (p.getRight() == maze.getWidth() - 1) {
                 out.println();
             }
         });

@@ -27,8 +27,24 @@ public class Array2D<T> {
         }
     }
 
+    public Pair fix(int i, int j) {
+        return new Pair(fixI(i), fixJ(j));
+    }
+
+    private int fixI(int i) {
+        return ((i % height) + height) % height;
+    }
+
+    private int fixJ(int j) {
+        return ((j % width) + width) % width;
+    }
+
     public T get(int i, int j) {
         return value[i][j];
+    }
+
+    public T get(Pair pair) {
+        return get(pair.getLeft(), pair.getRight());
     }
 
     public void set(int i, int j, T val) {
