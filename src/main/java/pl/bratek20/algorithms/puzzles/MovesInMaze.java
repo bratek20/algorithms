@@ -1,6 +1,7 @@
 package pl.bratek20.algorithms.puzzles;
 
 import pl.bratek20.algorithms.common.array2d.Array2D;
+import pl.bratek20.algorithms.common.array2d.Array2DReader;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.utils.Pair;
 
@@ -14,18 +15,10 @@ public class MovesInMaze extends Puzzle {
     Array2D<Integer> dist;
 
     void read() {
-        var p = in.readIntPair();
-        w = p.getLeft();
-        h = p.getRight();
-        maze = new Array2D<>(w, h, ' ');
+        maze = Array2DReader.readChar(in);
+        w = maze.getWidth();
+        h = maze.getHeight();
         dist = new Array2D<>(w, h, Integer.MAX_VALUE);
-
-        for (int i = 0; i < h; i++) {
-            var charArray = in.readLine().toCharArray();
-            for (int j = 0; j < w; j++) {
-                maze.set(i, j, charArray[j]);
-            }
-        }
     }
 
     int fixI(int i) {

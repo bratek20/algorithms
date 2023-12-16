@@ -28,4 +28,12 @@ public class Array2D<T> {
     public void set(int i, int j, T val) {
         value[i][j] = val;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
