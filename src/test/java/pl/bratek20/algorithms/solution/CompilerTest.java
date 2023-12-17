@@ -31,6 +31,14 @@ class CompilerTest {
         );
     }
 
+    private Compiler createCompilerWithImportWholePackage() {
+        return new Compiler(new CompilerConfig.Builder()
+            .modulesFolderPath("src/test/resources/solution")
+            .importWholePackage(true)
+            .build()
+        );
+    }
+
 
     @Test
     void shouldCompilePuzzleWithNoImports() {
@@ -214,5 +222,31 @@ class CompilerTest {
                 }
             }
             """);
+    }
+
+    @Test
+    void shouldImportWholePackageEvenIfOnlyOneFileImported() {
+        //given
+        var compiler = createCompilerWithImportWholePackage();
+
+        //when
+        var result = compiler.compile("InPackageImport");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+        class Solution {
+            public static class InPackageClass {
+                Object inPackageClassField;
+            }
+            
+            public static class OtherInPackageClass {
+                
+            }
+            
+            public static class InPackageImport {
+                InPackageClass inPackageClass;
+            }
+        }
+        """);
     }
 }

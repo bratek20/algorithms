@@ -9,6 +9,7 @@ public class Compiler {
     private final CompilerConfig config;
     private final Set<String> alreadyImported = new HashSet<>();
     private final Set<String> externalImports = new HashSet<>();
+
     public Compiler(CompilerConfig config) {
         this.config = config;
     }
