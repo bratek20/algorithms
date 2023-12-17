@@ -1,16 +1,16 @@
 package pl.bratek20.algorithms.common.array;
 
-public class ArrayCell<T> {
-    private final int index;
+public class AbstractCell<T, P> {
+    private final P point;
     private T value;
 
-    public ArrayCell(int index, T value) {
-        this.index = index;
+    public AbstractCell(P point, T value) {
+        this.point = point;
         this.value = value;
     }
 
-    public int getIndex() {
-        return index;
+    public P getPoint() {
+        return point;
     }
 
     public T getValue() {
@@ -20,4 +20,5 @@ public class ArrayCell<T> {
     public void setValue(T value) {
         this.value = value;
     }
+
 }

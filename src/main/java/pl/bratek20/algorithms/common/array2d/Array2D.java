@@ -1,6 +1,6 @@
 package pl.bratek20.algorithms.common.array2d;
 
-import pl.bratek20.algorithms.common.array.Array;
+import pl.bratek20.algorithms.common.array.d1.Array;
 
 import java.util.Optional;
 import java.util.function.Consumer;
