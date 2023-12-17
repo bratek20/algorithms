@@ -7,11 +7,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class JavaClassFile {
+public class JavaFile {
     private final String path;
     private FileContent content;
 
-    public JavaClassFile(String path) {
+    public JavaFile(String path) {
         this.path = path;
         readContent();
     }
@@ -30,18 +30,20 @@ public class JavaClassFile {
                 .toList();
     }
 
-    public FileContent getStaticClassDeclaration() {
-        var classDeclarationStartLine = content.findLine(line -> line.contains("class"))
+    public FileContent getStaticDeclaration() {
+        var declarationStartLine = content.findLine(line -> line.contains("class"))
             .orElseGet(() -> content.findLine(line -> line.contains("interface"))
-                .orElseThrow(() -> new RuntimeException("Class declaration not found in file: " + path)));
+                .orElseGet(() -> content.findLine(line -> line.contains("record"))
+                    .orElseThrow(() -> new RuntimeException("Class declaration not found in file: " + path))));
 
-        var firstLine = classDeclarationStartLine
+        var firstLine = declarationStartLine
             .replace("class", "static class")
-            .replace("interface", "static interface");
+            .replace("interface", "static interface")
+            .replace("record", "static record");
 
         return new FileContentBuilder()
             .addLine(firstLine)
-            .addContent(content.splitAfterLine(classDeclarationStartLine))
+            .addContent(content.splitAfterLine(declarationStartLine))
             .build();
     }
 

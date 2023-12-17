@@ -28,7 +28,7 @@ public class Compiler {
 
     public String compile(String puzzleName) {
         String filePath = modulesFolderPath + "/puzzles/" + puzzleName + ".java";
-        var file = new JavaClassFile(filePath);
+        var file = new JavaFile(filePath);
 
         var solutionBuilder = new FileContentBuilder();
 
@@ -70,11 +70,11 @@ public class Compiler {
         return builder.build();
     }
 
-    private void compileFile(JavaClassFile file, FileContentBuilder builder) {
+    private void compileFile(JavaFile file, FileContentBuilder builder) {
         file.getImports()
             .forEach(importLine -> compileForImport(importLine, builder));
 
-        var content = file.getStaticClassDeclaration();
+        var content = file.getStaticDeclaration();
         builder.addContent(content);
     }
 
@@ -90,7 +90,7 @@ public class Compiler {
         }
 
         alreadyImported.add(path);
-        var importFile = new JavaClassFile(path);
+        var importFile = new JavaFile(path);
         compileFile(importFile, builder);
     }
 
