@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JavaFileTest {
     private JavaFile create(String fileName) {
-        return new JavaFile("src/test/resources/solution/puzzles/" + fileName + ".java");
+        return new JavaFile("src/test/resources/solution/pl/bratek20/algorithms/puzzles/" + fileName + ".java");
     }
 
     @Test

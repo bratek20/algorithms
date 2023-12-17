@@ -23,6 +23,14 @@ public class Import {
         return prefix + getPath().replace(".", "/") + ".java";
     }
 
+    public String getPackagePath() {
+        return getPath().substring(0, getPath().lastIndexOf("."));
+    }
+
+    public String getPackageFilePath(String prefix) {
+        return prefix + getPackagePath().replace(".", "/");
+    }
+
     public boolean isExternal() {
         return !getPath().startsWith("pl.bratek20.algorithms");
     }

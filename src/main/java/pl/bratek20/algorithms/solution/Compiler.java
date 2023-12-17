@@ -77,7 +77,10 @@ public class Compiler {
         }
 
         if (config.importWholePackage) {
-
+            var packagePath = importLine.getPackageFilePath(config.basePath);
+            var packageFiles = new JavaPackageFiles(packagePath);
+            packageFiles.getFiles()
+                .forEach(file -> compileFile(file, builder));
         }
         else {
             var path = importLine.getFilePath(config.basePath);
@@ -97,6 +100,7 @@ public class Compiler {
             .basePath("src/main/java/")
             .attachMain(true)
             .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
+            .importWholePackage(true)
             .build()
         );
 
