@@ -1,6 +1,6 @@
 package pl.bratek20.algorithms.common.output;
 
-public class SystemOutput implements Output {
+public class SystemOutputProducer implements OutputProducer {
 
     @Override
     public void print(char c) {
@@ -10,15 +10,5 @@ public class SystemOutput implements Output {
     @Override
     public void print(String s) {
         System.out.print(s);
-    }
-
-    @Override
-    public void println(String s) {
-        System.out.println(s);
-    }
-
-    @Override
-    public void println() {
-        System.out.println();
     }
 }

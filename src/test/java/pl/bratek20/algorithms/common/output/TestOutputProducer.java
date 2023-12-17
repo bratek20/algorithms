@@ -2,7 +2,7 @@ package pl.bratek20.algorithms.common.output;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestOutput implements Output {
+public class TestOutputProducer implements OutputProducer {
     private String expected = "";
 
     @Override
@@ -13,16 +13,6 @@ public class TestOutput implements Output {
     @Override
     public void print(String s) {
         expected += s;
-    }
-
-    @Override
-    public void println(String s) {
-        expected += s + "\n";
-    }
-
-    @Override
-    public void println() {
-        expected += "\n";
     }
 
     public void assertEquals(String s) {

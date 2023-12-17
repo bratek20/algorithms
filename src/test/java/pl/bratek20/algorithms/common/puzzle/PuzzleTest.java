@@ -2,7 +2,7 @@ package pl.bratek20.algorithms.common.puzzle;
 
 import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.common.input.TestNextLineProvider;
-import pl.bratek20.algorithms.common.output.TestOutput;
+import pl.bratek20.algorithms.common.output.TestOutputProducer;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public abstract class PuzzleTest {
         //given
         var solution = createSolution();
         var input = new TestNextLineProvider();
-        var output = new TestOutput();
+        var output = new TestOutputProducer();
 
         solution.init(input, output);
         input.init(testData.input());
