@@ -17,21 +17,11 @@ public class MovesInMaze extends Puzzle implements BFS.Strategy<Array2DPoint> {
 
     @Override
     public List<Array2DPoint> getNeighbours(Array2DPoint node) {
-        var i = node.row();
-        var j = node.column();
-
-        int[] di = new int[] {1, -1, 0, 0};
-        int[] dj = new int[] {0, 0, 1, -1};
-        List<Array2DPoint> neighbours = new LinkedList<>();
-        for (int k = 0; k < 4; k++) {
-            var newP = maze.fix(i + di[k], j + dj[k]);
-
-            if (maze.get(newP) == '#') {
-                continue;
-            }
-            neighbours.add(newP);
-        }
-        return neighbours;
+        return node.neighbors()
+                .stream()
+                .map(p -> maze.fix(p))
+                .filter(p -> maze.get(p) != '#')
+                .toList();
     }
 
     void read() {

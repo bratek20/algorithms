@@ -20,19 +20,10 @@ public class LongestCoast extends Puzzle implements BFS.Strategy<Array2DPoint> {
 
     @Override
     public List<Array2DPoint> getNeighbours(Array2DPoint node) {
-        var i = node.row();
-        var j = node.column();
-
-        int[] di = new int[] {1, -1, 0, 0};
-        int[] dj = new int[] {0, 0, 1, -1};
-        List<Array2DPoint> neighbours = new LinkedList<>();
-        for (int k = 0; k < 4; k++) {
-            var newP = new Array2DPoint(i + di[k], j + dj[k]);
-            if (map.isInside(newP) && map.get(newP) == LAND) {
-                neighbours.add(newP);
-            }
-        }
-        return neighbours;
+        return node.neighbors()
+                .stream()
+                .filter(p -> map.isInside(p) && map.get(p) == LAND)
+                .toList();
     }
 
 
@@ -55,15 +46,12 @@ public class LongestCoast extends Puzzle implements BFS.Strategy<Array2DPoint> {
         Array<Integer> coastLengths = new Array<>(nextIndex.get(), 0);
         map.forEach(cell -> {
             if (cell.getValue() == WATER) {
-                int[] di = new int[] {1, -1, 0, 0};
-                int[] dj = new int[] {0, 0, 1, -1};
                 Set<Integer> islands = new HashSet<>();
-                for (int k = 0; k < 4; k++) {
-                    var newP = new Array2DPoint(cell.getPoint().row() + di[k], cell.getPoint().column() + dj[k]);
-                    if (map.isInside(newP) && map.get(newP) == LAND) {
-                        islands.add(indexes.get(newP));
+                cell.getPoint().neighbors().forEach(p -> {
+                    if (map.isInside(p) && map.get(p) == LAND) {
+                        islands.add(indexes.get(p));
                     }
-                }
+                });
                 islands.forEach(i -> coastLengths.set(i, coastLengths.get(i) + 1));
             }
         });

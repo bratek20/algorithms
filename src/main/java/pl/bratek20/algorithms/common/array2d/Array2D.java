@@ -30,6 +30,10 @@ public class Array2D<T> {
         return new Array2DPoint(fixRow(row), fixColumn(column));
     }
 
+    public Array2DPoint fix(Array2DPoint point) {
+        return fix(point.row(), point.column());
+    }
+
     public boolean isInside(int row, int column) {
         return row >= 0 && row < rows && column >= 0 && column < columns;
     }
