@@ -2,6 +2,7 @@ package pl.bratek20.algorithms.common.array2d;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class Array2D<T> {
@@ -92,5 +93,11 @@ public class Array2D<T> {
                 consumer.accept(cells[i][j]);
             }
         }
+    }
+
+    public <NT> Array2D<NT> map(Function<Array2DCell<T>, NT> mapper) {
+        Array2D<NT> newArray = new Array2D<>(columns, rows, null);
+        forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
+        return newArray;
     }
 }

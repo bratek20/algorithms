@@ -11,4 +11,17 @@ public record Array2DPoint(int row, int column) {
                 new Array2DPoint(row, column + 1)
         );
     }
+
+    public List<Array2DPoint> neighborsWithDiagonals() {
+        return List.of(
+                new Array2DPoint(row - 1, column),
+                new Array2DPoint(row + 1, column),
+                new Array2DPoint(row, column - 1),
+                new Array2DPoint(row, column + 1),
+                new Array2DPoint(row - 1, column - 1),
+                new Array2DPoint(row - 1, column + 1),
+                new Array2DPoint(row + 1, column - 1),
+                new Array2DPoint(row + 1, column + 1)
+        );
+    }
 }

@@ -15,7 +15,7 @@ public class Array2DReader {
         return readChar(w, w, in);
     }
 
-    private static Array2D<Character> readChar(int w, int h, Input in) {
+    public static Array2D<Character> readChar(int w, int h, Input in) {
         var result = new Array2D<>(w, h, ' ');
         for (int i = 0; i < h; i++) {
             var charArray = in.readLine().toCharArray();
