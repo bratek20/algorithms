@@ -5,13 +5,13 @@ import java.util.Optional;
 
 public class CompilerConfig {
     public static class Builder {
-        private String modulesFolderPath;
+        private String basePath;
         private Boolean attachMain;
         private List<String> compileImports;
         private Boolean importWholePackage;
 
-        public Builder modulesFolderPath(String modulesFolderPath) {
-            this.modulesFolderPath = modulesFolderPath;
+        public Builder basePath(String basePath) {
+            this.basePath = basePath;
             return this;
         }
 
@@ -31,14 +31,14 @@ public class CompilerConfig {
         }
 
         public CompilerConfig build() {
-            var resolvedModulesFolderPath = Optional.ofNullable(this.modulesFolderPath)
-                .orElseThrow(() -> new RuntimeException("Modules folder path is required"));
+            var resolvedBasePath = Optional.ofNullable(this.basePath)
+                .orElseThrow(() -> new RuntimeException("Base path is required"));
             var resolvedAttachMain = Optional.ofNullable(this.attachMain).orElse(false);
             var resolvedCompileImports = Optional.ofNullable(this.compileImports).orElse(List.of());
             var resolvedImportWholePackage = Optional.ofNullable(this.importWholePackage).orElse(false);
 
             return new CompilerConfig(
-                resolvedModulesFolderPath,
+                resolvedBasePath,
                 resolvedAttachMain,
                 resolvedCompileImports,
                 resolvedImportWholePackage
@@ -46,18 +46,18 @@ public class CompilerConfig {
         }
     }
 
-    final String modulesFolderPath;
+    final String basePath;
     final boolean attachMain;
     final List<String> compileImports;
     final boolean importWholePackage;
 
     public CompilerConfig(
-        String modulesFolderPath,
+        String basePath,
         boolean attachMain,
         List<String> compileImports,
         boolean importWholePackage
     ) {
-        this.modulesFolderPath = modulesFolderPath;
+        this.basePath = basePath;
         this.attachMain = attachMain;
         this.compileImports = compileImports;
         this.importWholePackage = importWholePackage;

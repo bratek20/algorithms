@@ -3,11 +3,10 @@ package pl.bratek20.algorithms.solution;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.*;
-import java.util.List;
 
 public class Compiler {
     private final CompilerConfig config;
-    private final Set<String> alreadyImported = new HashSet<>();
+    private final Set<String> alreadyCompiledFiles = new HashSet<>();
     private final Set<String> externalImports = new HashSet<>();
 
     public Compiler(CompilerConfig config) {
@@ -15,7 +14,7 @@ public class Compiler {
     }
 
     public String compile(String puzzleName) {
-        String filePath = config.modulesFolderPath + "/puzzles/" + puzzleName + ".java";
+        String filePath = config.basePath + "pl/bratek20/algorithms/puzzles/" + puzzleName + ".java";
         var file = new JavaFile(filePath);
 
         var solutionBuilder = new FileContentBuilder();
@@ -59,6 +58,11 @@ public class Compiler {
     }
 
     private void compileFile(JavaFile file, FileContentBuilder builder) {
+        if (alreadyCompiledFiles.contains(file.getPath())) {
+            return;
+        }
+        alreadyCompiledFiles.add(file.getPath());
+
         file.getImports()
             .forEach(importLine -> compileForImport(importLine, builder));
 
@@ -72,26 +76,15 @@ public class Compiler {
             return;
         }
 
-        var path = importToPath(importLine);
-        if (alreadyImported.contains(path)) {
-            return;
+        if (config.importWholePackage) {
+
+        }
+        else {
+            var path = importLine.getFilePath(config.basePath);
+            var importFile = new JavaFile(path);
+            compileFile(importFile, builder);
         }
 
-        alreadyImported.add(path);
-        var importFile = new JavaFile(path);
-        compileFile(importFile, builder);
-    }
-
-    private String importToPath(Import importLine) {
-        var path = importLine.getPath();
-        if (!path.startsWith("pl.bratek20.algorithms")) {
-            throw new RuntimeException("Cannot import class: " + path);
-        }
-        var pathPart = path
-            .replace("pl.bratek20.algorithms", "")
-            .replace(".", "/");
-
-        return config.modulesFolderPath + pathPart + ".java";
     }
 
     public static void main(String[] args) {
@@ -101,7 +94,7 @@ public class Compiler {
         }
 
         var compiler = new Compiler(new CompilerConfig.Builder()
-            .modulesFolderPath("src/main/java/pl/bratek20/algorithms")
+            .basePath("src/main/java/")
             .attachMain(true)
             .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
             .build()

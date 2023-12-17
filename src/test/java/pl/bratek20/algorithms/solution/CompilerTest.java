@@ -2,21 +2,20 @@ package pl.bratek20.algorithms.solution;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CompilerTest {
+    private CompilerConfig.Builder builderWithBasePath() {
+        return new CompilerConfig.Builder()
+            .basePath("src/test/resources/solution/");
+    }
+
     private Compiler createCompiler() {
-        return new Compiler(new CompilerConfig.Builder()
-            .modulesFolderPath("src/test/resources/solution")
-            .build()
-        );
+        return new Compiler(builderWithBasePath().build());
     }
 
     private Compiler createCompilerWithMainAttached() {
-        return new Compiler(new CompilerConfig.Builder()
-            .modulesFolderPath("src/test/resources/solution")
+        return new Compiler(builderWithBasePath()
             .attachMain(true)
             .build()
         );
@@ -24,16 +23,14 @@ class CompilerTest {
 
 
     private Compiler createCompilerWithCompileImports(String ...imports) {
-        return new Compiler(new CompilerConfig.Builder()
-            .modulesFolderPath("src/test/resources/solution")
+        return new Compiler(builderWithBasePath()
             .compileImports(imports)
             .build()
         );
     }
 
     private Compiler createCompilerWithImportWholePackage() {
-        return new Compiler(new CompilerConfig.Builder()
-            .modulesFolderPath("src/test/resources/solution")
+        return new Compiler(builderWithBasePath()
             .importWholePackage(true)
             .build()
         );

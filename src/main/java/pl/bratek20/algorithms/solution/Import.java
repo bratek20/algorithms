@@ -19,6 +19,10 @@ public class Import {
         return value.replace("import ", "").replace(";", "");
     }
 
+    public String getFilePath(String prefix) {
+        return prefix + getPath().replace(".", "/") + ".java";
+    }
+
     public boolean isExternal() {
         return !getPath().startsWith("pl.bratek20.algorithms");
     }

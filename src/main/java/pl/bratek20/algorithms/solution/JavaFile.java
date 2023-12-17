@@ -16,6 +16,10 @@ public class JavaFile {
         readContent();
     }
 
+    public String getPath() {
+        return path;
+    }
+
     @SneakyThrows
     private void readContent() {
         byte[] encodedBytes = Files.readAllBytes(Paths.get(path));
