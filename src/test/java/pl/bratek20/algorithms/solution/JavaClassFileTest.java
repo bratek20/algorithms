@@ -25,7 +25,7 @@ class JavaClassFileTest {
         var definition = file.getStaticClassDeclaration().toString();
 
         assertThat(definition).isEqualToIgnoringWhitespace("""
-        public class SimpleImport {
+        public static class SimpleImport {
             SomeClass someClass;
         }
         """);
