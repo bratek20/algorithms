@@ -25,4 +25,16 @@ public class Array2DReader {
         }
         return result;
     }
+
+    public static Array2D<Integer> readInt(int w, int h, Input in) {
+        var result = new Array2D<>(w, h, 0);
+        for (int i = 0; i < h; i++) {
+            var ints = in.readInts();
+            for (int j = 0; j < w; j++) {
+                result.set(i, j, ints.get(j));
+            }
+        }
+        return result;
+    }
+
 }

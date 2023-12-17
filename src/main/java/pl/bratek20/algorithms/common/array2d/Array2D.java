@@ -1,5 +1,7 @@
 package pl.bratek20.algorithms.common.array2d;
 
+import pl.bratek20.algorithms.common.array.Array;
+
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -99,5 +101,31 @@ public class Array2D<T> {
         Array2D<NT> newArray = new Array2D<>(columns, rows, null);
         forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
         return newArray;
+    }
+
+    public Array<Integer> getColumn(int column) {
+        Array<Integer> result = new Array<>(rows, 0);
+        for (int i = 0; i < rows; i++) {
+            result.set(i, (Integer) cells[i][column].getValue());
+        }
+        return result;
+    }
+
+    public Array<Integer> getRow(int row) {
+        Array<Integer> result = new Array<>(columns, 0);
+        for (int i = 0; i < columns; i++) {
+            result.set(i, (Integer) cells[row][i].getValue());
+        }
+        return result;
+    }
+
+    public Array2D<T> subArray(int startRow, int startColumn, int rows, int columns) {
+        Array2D<T> result = new Array2D<>(rows, columns, null);
+        for (int i = startRow; i < startRow + columns; i++) {
+            for (int j = startColumn; j < startColumn + rows; j++) {
+                result.set(i - startRow, j - startColumn, get(i, j));
+            }
+        }
+        return result;
     }
 }

@@ -3,28 +3,29 @@ package pl.bratek20.algorithms.common.array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class Array<T> {
-    private final List<T> value;
+    private final List<ArrayCell<T>> cells;
 
     public Array(int n, T defaultValue) {
-        this.value = new ArrayList<>(n);
+        this.cells = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
-            value.add(defaultValue);
+            cells.add(new ArrayCell<>(i, defaultValue));
         }
     }
 
     public T get(int i) {
-        return value.get(i);
+        return cells.get(i).getValue();
     }
 
     public void set(int i, T val) {
-        value.set(i, val);
+        cells.get(i).setValue(val);
     }
 
-    public void forEach(BiConsumer<T, Integer> consumer) {
-        for (int i = 0; i < value.size(); i++) {
-            consumer.accept(value.get(i), i);
+    public void forEach(Consumer<ArrayCell<T>> consumer) {
+        for (int i = 0; i < cells.size(); i++) {
+            consumer.accept(cells.get(i));
         }
     }
 }

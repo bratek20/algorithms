@@ -58,7 +58,10 @@ public class LongestCoast extends Puzzle implements BFS.Strategy<Array2DPoint> {
 
         final var max = new Variable<>(0);
         final var maxIndex = new Variable<>(1);
-        coastLengths.forEach((length, index) -> {
+        coastLengths.forEach(cell -> {
+            var index = cell.getIndex();
+            var length = cell.getValue();
+
             if (length > max.get()) {
                 max.set(length);
                 maxIndex.set(index);
