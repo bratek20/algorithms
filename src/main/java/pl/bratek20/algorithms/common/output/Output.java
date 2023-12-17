@@ -15,8 +15,17 @@ public class Output {
         outputProducer.print(s);
     }
 
+    public void print(boolean b) {
+        print(b ? "true" : "false");
+    }
+
     public void println(String s) {
         outputProducer.print(s + "\n");
+    }
+
+    public void println(boolean b) {
+        print(b);
+        println();
     }
 
     public void println() {

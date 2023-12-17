@@ -24,7 +24,7 @@ public class SudokuValidator extends Puzzle {
             result &= validate(arr.subArray(row[i], col[i],3,3));
         }
 
-        out.println(result ? "true" : "false");
+        out.println(result);
     }
 
     boolean validate(Array<Integer> arr) {
