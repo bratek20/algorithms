@@ -6,28 +6,15 @@ import java.util.*;
 import java.util.List;
 
 public class Compiler {
-    private final String modulesFolderPath;
-    private final boolean attachMain;
-    private final List<String> compileImports;
-    private final List<String> alreadyImported = new ArrayList<>();
+    private final CompilerConfig config;
+    private final Set<String> alreadyImported = new HashSet<>();
     private final Set<String> externalImports = new HashSet<>();
-
-    public Compiler(String modulesFolderPath) {
-        this(modulesFolderPath, false);
-    }
-
-    public Compiler(String modulesFolderPath, boolean attachMain) {
-        this(modulesFolderPath, attachMain, List.of());
-    }
-
-    public Compiler(String modulesFolderPath, boolean attachMain, List<String> compileImports) {
-        this.modulesFolderPath = modulesFolderPath;
-        this.attachMain = attachMain;
-        this.compileImports = compileImports;
+    public Compiler(CompilerConfig config) {
+        this.config = config;
     }
 
     public String compile(String puzzleName) {
-        String filePath = modulesFolderPath + "/puzzles/" + puzzleName + ".java";
+        String filePath = config.modulesFolderPath + "/puzzles/" + puzzleName + ".java";
         var file = new JavaFile(filePath);
 
         var solutionBuilder = new FileContentBuilder();
@@ -36,12 +23,12 @@ public class Compiler {
             .addLine("class Solution {")
             .addIndent(4);
 
-        compileImports
+        config.compileImports
             .forEach(importLine -> compileForImport(new Import(importLine), solutionBuilder));
 
         compileFile(file, solutionBuilder);
 
-        if (attachMain) {
+        if (config.attachMain) {
             solutionBuilder
                 .addContent(new FileContent("""
                 public static void main(String[] args) {
@@ -103,7 +90,7 @@ public class Compiler {
             .replace("pl.bratek20.algorithms", "")
             .replace(".", "/");
 
-        return modulesFolderPath + pathPart + ".java";
+        return config.modulesFolderPath + pathPart + ".java";
     }
 
     public static void main(String[] args) {
@@ -112,10 +99,11 @@ public class Compiler {
             return;
         }
 
-        var compiler = new Compiler(
-            "src/main/java/pl/bratek20/algorithms",
-            true,
-            List.of("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
+        var compiler = new Compiler(new CompilerConfig.Builder()
+            .modulesFolderPath("src/main/java/pl/bratek20/algorithms")
+            .attachMain(true)
+            .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
+            .build()
         );
 
         var puzzleName = args[0];

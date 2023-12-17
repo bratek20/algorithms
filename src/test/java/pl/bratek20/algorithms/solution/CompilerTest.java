@@ -8,16 +8,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CompilerTest {
     private Compiler createCompiler() {
-        return new Compiler("src/test/resources/solution");
+        return new Compiler(new CompilerConfig.Builder()
+            .modulesFolderPath("src/test/resources/solution")
+            .build()
+        );
     }
 
     private Compiler createCompilerWithMainAttached() {
-        return new Compiler("src/test/resources/solution", true);
+        return new Compiler(new CompilerConfig.Builder()
+            .modulesFolderPath("src/test/resources/solution")
+            .attachMain(true)
+            .build()
+        );
     }
 
 
-    private Compiler createCompilerWithCompileImports(List<String> imports) {
-        return new Compiler("src/test/resources/solution", false, imports);
+    private Compiler createCompilerWithCompileImports(String ...imports) {
+        return new Compiler(new CompilerConfig.Builder()
+            .modulesFolderPath("src/test/resources/solution")
+            .compileImports(imports)
+            .build()
+        );
     }
 
 
@@ -134,7 +145,7 @@ class CompilerTest {
     @Test
     void shouldAddClassesForCompileImports() {
         //given
-        var compiler = createCompilerWithCompileImports(List.of("pl.bratek20.algorithms.common.SomeClass"));
+        var compiler = createCompilerWithCompileImports("pl.bratek20.algorithms.common.SomeClass");
 
         //when
         var result = compiler.compile("NoImports");
