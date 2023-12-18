@@ -1,8 +1,7 @@
 package pl.bratek20.algorithms.puzzles;
 
-import pl.bratek20.algorithms.common.array.d1.Array;
-import pl.bratek20.algorithms.common.array2d.Array2D;
-import pl.bratek20.algorithms.common.array2d.Array2DReader;
+import pl.bratek20.algorithms.common.array.AbstractArray;
+import pl.bratek20.algorithms.common.array.d2.Array2DReader;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 
 import java.util.HashSet;
@@ -27,13 +26,7 @@ public class SudokuValidator extends Puzzle {
         out.println(result);
     }
 
-    boolean validate(Array<Integer> arr) {
-        Set<Integer> set = new HashSet<>();
-        arr.forEach(cell -> set.add(cell.getValue()));
-        return set.size() == 9;
-    }
-
-    boolean validate(Array2D<Integer> arr) {
+    boolean validate(AbstractArray<Integer, ?, ?, ?> arr) {
         Set<Integer> set = new HashSet<>();
         arr.forEach(cell -> set.add(cell.getValue()));
         return set.size() == 9;

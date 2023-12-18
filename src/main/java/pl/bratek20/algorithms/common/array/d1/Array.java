@@ -1,12 +1,11 @@
 package pl.bratek20.algorithms.common.array.d1;
 
 import pl.bratek20.algorithms.common.array.AbstractArray;
-import pl.bratek20.algorithms.common.array.AbstractCell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>> {
+public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>, Array<T>> {
     private final List<ArrayCell<T>> cells;
 
     public Array(int n, T defaultValue) {
@@ -22,10 +21,9 @@ public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>> {
     }
 
     @Override
-    protected <NT, NC extends AbstractCell<NT, Integer>> AbstractArray<NT, Integer, NC> emptyCopy() {
-        return (AbstractArray<NT, Integer, NC>) new Array<>(cells.size(), null);
+    protected Array<T> emptyCopy() {
+        return null;
     }
-
 
     @Override
     public T get(Integer point) {

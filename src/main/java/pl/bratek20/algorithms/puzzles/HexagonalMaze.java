@@ -1,9 +1,9 @@
 package pl.bratek20.algorithms.puzzles;
 
-import pl.bratek20.algorithms.common.array2d.Array2D;
-import pl.bratek20.algorithms.common.array2d.Array2DPoint;
-import pl.bratek20.algorithms.common.array2d.Array2DReader;
-import pl.bratek20.algorithms.common.array2d.Array2DWriter;
+import pl.bratek20.algorithms.common.array.d2.Array2D;
+import pl.bratek20.algorithms.common.array.d2.Array2DPoint;
+import pl.bratek20.algorithms.common.array.d2.Array2DReader;
+import pl.bratek20.algorithms.common.array.d2.Array2DWriter;
 import pl.bratek20.algorithms.common.bfs.BFS;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 

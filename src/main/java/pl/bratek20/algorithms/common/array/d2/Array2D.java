@@ -1,22 +1,20 @@
-package pl.bratek20.algorithms.common.array2d;
+package pl.bratek20.algorithms.common.array.d2;
 
+import pl.bratek20.algorithms.common.array.AbstractArray;
 import pl.bratek20.algorithms.common.array.d1.Array;
 
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Array2D<T> {
+public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, Array2D<T>> {
     private final int columns;
     private final int rows;
-    private final Array2DCell<T>[][] cells;
+    private final List<Array2DCell<T>> cells;
 
     public Array2D(int columns, int rows, T defaultValue) {
         this.columns = columns;
         this.rows = rows;
-        this.cells = new Array2DCell[rows][columns];
-
+        this.cells = new ArrayList<>(columns * rows);
         fill(defaultValue);
     }
 
@@ -24,7 +22,7 @@ public class Array2D<T> {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 var point = new Array2DPoint(i, j);
-                cells[i][j] = new Array2DCell<>(point, defaultValue);
+                cells.add(new Array2DCell<>(point, defaultValue));
             }
         }
     }
@@ -54,17 +52,33 @@ public class Array2D<T> {
     }
 
     public T get(int row, int column) {
-        return cells[row][column].getValue();
+        return cells.get(getIndex(row, column)).getValue();
     }
 
+    @Override
+    protected List<Array2DCell<T>> getCells() {
+        return cells;
+    }
+
+    @Override
+    protected Array2D<T> emptyCopy() {
+        return new Array2D<>(columns, rows, null);
+    }
+
+    @Override
     public T get(Array2DPoint point) {
         return get(point.row(), point.column());
     }
 
     public void set(int row, int column, T val) {
-        cells[row][column].setValue(val);
+        cells.get(getIndex(row, column)).setValue(val);
     }
 
+    private int getIndex(int row, int column) {
+        return row * columns + column;
+    }
+
+    @Override
     public void set(Array2DPoint point, T val) {
         set(point.row(), point.column(), val);
     }
@@ -77,44 +91,18 @@ public class Array2D<T> {
         return rows;
     }
 
-    public Optional<Array2DPoint> find(Predicate<T> predicate) {
+    public Array<T> getColumn(int column) {
+        Array<T> result = new Array<T>(rows, null);
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                var cell = cells[i][j];
-                if (predicate.test(cell.getValue())) {
-                    return Optional.of(cell.getPoint());
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    public void forEach(Consumer<Array2DCell<T>> consumer) {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                consumer.accept(cells[i][j]);
-            }
-        }
-    }
-
-    public <NT> Array2D<NT> map(Function<Array2DCell<T>, NT> mapper) {
-        Array2D<NT> newArray = new Array2D<>(columns, rows, null);
-        forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
-        return newArray;
-    }
-
-    public Array<Integer> getColumn(int column) {
-        Array<Integer> result = new Array<>(rows, 0);
-        for (int i = 0; i < rows; i++) {
-            result.set(i, (Integer) cells[i][column].getValue());
+            result.set(i, get(i, column));
         }
         return result;
     }
 
-    public Array<Integer> getRow(int row) {
-        Array<Integer> result = new Array<>(columns, 0);
+    public Array<T> getRow(int row) {
+        Array<T> result = new Array<T>(columns, null);
         for (int i = 0; i < columns; i++) {
-            result.set(i, (Integer) cells[row][i].getValue());
+            result.set(i, get(row, i));
         }
         return result;
     }

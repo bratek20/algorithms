@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.common.array2d;
+package pl.bratek20.algorithms.common.array.d2;
 
 import java.util.List;
 

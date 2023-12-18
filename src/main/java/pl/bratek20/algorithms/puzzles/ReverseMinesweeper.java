@@ -1,7 +1,7 @@
 package pl.bratek20.algorithms.puzzles;
 
-import pl.bratek20.algorithms.common.array2d.Array2DReader;
-import pl.bratek20.algorithms.common.array2d.Array2DWriter;
+import pl.bratek20.algorithms.common.array.d2.Array2DReader;
+import pl.bratek20.algorithms.common.array.d2.Array2DWriter;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 
 // https://www.codingame.com/ide/puzzle/reverse-minesweeper
