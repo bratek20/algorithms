@@ -13,7 +13,7 @@ public abstract class AbstractArray<
     A extends AbstractArray<T, P, C, A>
 > {
     protected abstract List<C> getCells();
-    protected abstract A emptyCopy();
+    protected abstract <NT, NC extends AbstractCell<NT, P>, NA extends AbstractArray<NT, P, NC, NA>> NA emptyCopy();
 
     public abstract T get(P point);
     public abstract void set(P point, T value);
@@ -22,8 +22,8 @@ public abstract class AbstractArray<
         getCells().forEach(consumer);
     }
 
-    public A map(Function<C, T> mapper) {
-        A newArray = emptyCopy();
+    public <NT, NC extends AbstractCell<NT, P>, NA extends AbstractArray<NT, P, NC, NA>> NA map(Function<C, NT> mapper) {
+        NA newArray = emptyCopy();
         forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
         return newArray;
     }

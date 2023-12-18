@@ -1,10 +1,12 @@
 package pl.bratek20.algorithms.common.array.d2;
 
 import pl.bratek20.algorithms.common.array.AbstractArray;
+import pl.bratek20.algorithms.common.array.AbstractCell;
 import pl.bratek20.algorithms.common.array.d1.Array;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, Array2D<T>> {
     private final int columns;
@@ -61,8 +63,14 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
     }
 
     @Override
-    protected Array2D<T> emptyCopy() {
-        return new Array2D<>(columns, rows, null);
+    protected <NT, NC extends AbstractCell<NT, Array2DPoint>, NA extends AbstractArray<NT, Array2DPoint, NC, NA>> NA emptyCopy() {
+        return (NA) new Array2D<NT>(columns, rows, null);
+    }
+
+    public <NT> Array2D<NT> correctMap(Function<Array2DCell<T>, NT> mapper) {
+        Array2D<NT> newArray = emptyCopy();
+        forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
+        return newArray;
     }
 
     @Override
@@ -92,7 +100,7 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
     }
 
     public Array<T> getColumn(int column) {
-        Array<T> result = new Array<T>(rows, null);
+        Array<T> result = new Array<>(rows, null);
         for (int i = 0; i < rows; i++) {
             result.set(i, get(i, column));
         }
@@ -100,7 +108,7 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
     }
 
     public Array<T> getRow(int row) {
-        Array<T> result = new Array<T>(columns, null);
+        Array<T> result = new Array<>(columns, null);
         for (int i = 0; i < columns; i++) {
             result.set(i, get(row, i));
         }
