@@ -22,7 +22,7 @@ public abstract class AbstractArray<
         getCells().forEach(consumer);
     }
 
-    public <NT, NC extends AbstractCell<NT, P>, NA extends AbstractArray<NT, P, NC, NA>> NA map(Function<C, NT> mapper) {
+    protected <NT, NC extends AbstractCell<NT, P>, NA extends AbstractArray<NT, P, NC, NA>> NA abstractMap(Function<C, NT> mapper) {
         NA newArray = emptyCopy();
         forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
         return newArray;

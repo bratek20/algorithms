@@ -12,7 +12,7 @@ class Array2DTest {
         var arr = new Array2D<>(2, 2, 0);
 
         // when
-        var boolArr = arr.correctMap(cell -> cell.getPoint().column() % 2 == 0);
+        var boolArr = arr.map(cell -> cell.getPoint().column() % 2 == 0);
 
         //then
         boolArr.getColumn(0).forEach(cell -> assertTrue(cell.getValue()));

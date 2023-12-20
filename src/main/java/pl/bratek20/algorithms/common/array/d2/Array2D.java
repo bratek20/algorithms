@@ -67,10 +67,8 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
         return (NA) new Array2D<NT>(columns, rows, null);
     }
 
-    public <NT> Array2D<NT> correctMap(Function<Array2DCell<T>, NT> mapper) {
-        Array2D<NT> newArray = emptyCopy();
-        forEach(cell -> newArray.set(cell.getPoint(), mapper.apply(cell)));
-        return newArray;
+    public <NT> Array2D<NT> map(Function<Array2DCell<T>, NT> mapper) {
+        return super.abstractMap(mapper);
     }
 
     @Override
