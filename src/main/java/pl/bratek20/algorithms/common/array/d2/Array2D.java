@@ -122,4 +122,122 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
         }
         return result;
     }
+
+    public Array2D<T> reverseColumns() {
+        Array2D<T> result = new Array2D<>(columns, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(i, columns - j - 1));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> reverseRows() {
+        Array2D<T> result = new Array2D<>(columns, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(rows - i - 1, j));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> removeColumn(int column) {
+        Array2D<T> result = new Array2D<>(columns - 1, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < column; j++) {
+                result.set(i, j, get(i, j));
+            }
+            for (int j = column + 1; j < columns; j++) {
+                result.set(i, j - 1, get(i, j));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> removeRow(int row) {
+        Array2D<T> result = new Array2D<>(columns, rows - 1, null);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(i, j));
+            }
+        }
+        for (int i = row + 1; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i - 1, j, get(i, j));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> copy() {
+        Array2D<T> result = new Array2D<>(columns, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(i, j));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> concatByColumn(Array2D<T> other) {
+        Array2D<T> result = new Array2D<>(columns + other.columns, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns + other.columns; j++) {
+                if (j < columns) {
+                    result.set(i, j, get(i, j));
+                } else {
+                    result.set(i, j, other.get(i, j - columns));
+                }
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> concatByRow(Array2D<T> other) {
+        Array2D<T> result = new Array2D<>(columns, rows + other.rows, null);
+        for (int i = 0; i < rows + other.rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (i < rows) {
+                    result.set(i, j, get(i, j));
+                } else {
+                    result.set(i, j, other.get(i - rows, j));
+                }
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> addColumn(int columnPosition, Array<T> columnValues) {
+        Array2D<T> result = new Array2D<>(columns + 1, rows, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columnPosition; j++) {
+                result.set(i, j, get(i, j));
+            }
+            result.set(i, columnPosition, columnValues.get(i));
+            for (int j = columnPosition + 1; j < columns + 1; j++) {
+                result.set(i, j, get(i, j - 1));
+            }
+        }
+        return result;
+    }
+
+    public Array2D<T> addRow(int rowPosition, Array<T> rowValues) {
+        Array2D<T> result = new Array2D<>(columns, rows + 1, null);
+        for (int i = 0; i < rowPosition; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(i, j));
+            }
+        }
+        for (int j = 0; j < columns; j++) {
+            result.set(rowPosition, j, rowValues.get(j));
+        }
+        for (int i = rowPosition + 1; i < rows + 1; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i, j, get(i - 1, j));
+            }
+        }
+        return result;
+    }
 }
