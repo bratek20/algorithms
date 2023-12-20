@@ -13,7 +13,7 @@ public class ReverseMinesweeper extends Puzzle {
         int h = in.readInt();
         var arr = Array2DReader.readChar(w, h, in);
 
-        var result = arr.correctMap(cell -> {
+        var result = arr.map(cell -> {
             if (cell.getValue() != '.') {
                 return '.';
             }
