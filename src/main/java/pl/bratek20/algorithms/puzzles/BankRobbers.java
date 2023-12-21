@@ -21,6 +21,16 @@ public class BankRobbers extends Puzzle {
         return new Pair(min, pos);
     }
 
+    int findMax(List<Integer> times, int from, int to) {
+        int max = times.get(from);
+        for (int i = from; i < to; i++) {
+            if (times.get(i) > max) {
+                max = times.get(i);
+            }
+        }
+        return max;
+    }
+
     int subtract(List<Integer> times, int from, int to, int value) {
         for (int i = from; i < to; i++) {
             times.set(i, times.get(i) - value);
@@ -54,10 +64,8 @@ public class BankRobbers extends Puzzle {
             .toList();
         var times = new ArrayList<>(inTimes);
 
-        doN(r, () -> times.add(0));
-
         int result = 0;
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v - r; i++) {
             var x = findMin(times, i, i + r);
             int min = x.getLeft();
             int pos = x.getRight();
@@ -66,6 +74,7 @@ public class BankRobbers extends Puzzle {
             subtract(times, pos, i + r, min);
             swap(times, i, pos);
         }
+        result += findMax(times, v - r, v);
 
         out.println(result);
     }
