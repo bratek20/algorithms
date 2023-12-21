@@ -223,6 +223,10 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
         return result;
     }
 
+    public Array2D<T> addColumn(int columnPosition, T value) {
+        return addColumn(columnPosition, new Array<>(rows, value));
+    }
+
     public Array2D<T> addRow(int rowPosition, Array<T> rowValues) {
         Array2D<T> result = new Array2D<>(columns, rows + 1, null);
         for (int i = 0; i < rowPosition; i++) {
@@ -239,5 +243,9 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
             }
         }
         return result;
+    }
+
+    public Array2D<T> addRow(int rowPosition, T value) {
+        return addRow(rowPosition, new Array<>(columns, value));
     }
 }

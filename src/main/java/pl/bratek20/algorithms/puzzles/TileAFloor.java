@@ -17,17 +17,26 @@ public class TileAFloor extends Puzzle {
     Map<Character, Character> topBottom = new HashMap<>();
     void fillMaps() {
         leftRight.put('(', ')');
+        leftRight.put(')', '(');
         leftRight.put('{', '}');
+        leftRight.put('}', '{');
         leftRight.put('[', ']');
+        leftRight.put(']', '[');
         leftRight.put('<', '>');
+        leftRight.put('>', '<');
         leftRight.put('/', '\\');
         leftRight.put('\\', '/');
 
         topBottom.put('^', 'v');
+        topBottom.put('v', '^');
         topBottom.put('A', 'V');
+        topBottom.put('V', 'A');
         topBottom.put('w', 'm');
+        topBottom.put('m', 'w');
         topBottom.put('W', 'M');
+        topBottom.put('M', 'W');
         topBottom.put('u', 'n');
+        topBottom.put('n', 'u');
         topBottom.put('/', '\\');
         topBottom.put('\\', '/');
 
@@ -35,61 +44,45 @@ public class TileAFloor extends Puzzle {
 
     @Override
     public void solve() {
-        var arr = Array2DReader.readCharSquare(in);
-        int n = arr.getRows();
+        fillMaps();
+        var leftTop = Array2DReader.readCharSquare(in);
+        int n = leftTop.getRows();
 
-        var leftTop = arr;
-        var rightTop = arr.reverseColumns().map(c -> {
+        var rightTop = leftTop.reverseColumns().map(c -> {
             var value = c.getValue();
             if (leftRight.containsKey(value)) {
                 return leftRight.get(value);
             }
             return value;
         });
-        var leftBottom = arr.reverseRows().map(c -> {
-            var value = c.getValue();
-            if (topBottom.containsKey(value)) {
-                return topBottom.get(value);
-            }
-            return value;
-        });
-        var rightBottom = rightTop.reverseRows().map(c -> {
-            var value = c.getValue();
-            if (topBottom.containsKey(value)) {
-                return topBottom.get(value);
-            }
-            return value;
-        });
-
         var top = leftTop.concatByColumn(rightTop);
-        var bottom = leftBottom.concatByColumn(rightBottom);
+
+        var bottom = top.reverseRows().map(c -> {
+            var value = c.getValue();
+            if (topBottom.containsKey(value)) {
+                return topBottom.get(value);
+            }
+            return value;
+        });
 
         var tile = top.concatByRow(bottom);
         tile = tile.removeColumn(n - 1);
         tile = tile.removeRow(n - 1);
 
-        var floor = tile.concatByColumn(tile);
-        floor = floor.concatByRow(floor);
+        tile = tile.addColumn(0, '|');
+        tile = tile.addColumn(tile.getColumns(), '|');
+        tile = tile.addRow(0, '-');
+        tile = tile.addRow(tile.getRows(), '-');
+        tile.set(0, 0, '+');
+        tile.set(0, tile.getColumns() - 1, '+');
+        tile.set(tile.getRows() - 1, 0, '+');
+        tile.set(tile.getRows() - 1, tile.getColumns() - 1, '+');
 
-        floor = floor.addColumn(0, new Array<>(floor.getRows(), '|'));
-        floor = floor.addColumn(floor.getColumns(), new Array<>(floor.getRows(), '|'));
-        floor = floor.addColumn(n * 2, new Array<>(floor.getRows(), '|'));
+        var floorTop = tile.concatByColumn(tile);
+        var floor = floorTop.concatByRow(floorTop);
 
-        floor = floor.addRow(0, new Array<>(floor.getColumns(), '-'));
-        floor = floor.addRow(floor.getRows(), new Array<>(floor.getColumns(), '-'));
-        floor = floor.addRow(n * 2, new Array<>(floor.getColumns(), '-'));
-
-        floor.set(0, 0, '+');
-        floor.set(0, floor.getColumns() - 1, '+');
-        floor.set(floor.getRows() - 1, 0, '+');
-        floor.set(floor.getRows() - 1, floor.getColumns() - 1, '+');
-
-        int n2 = n * 2;
-        floor.set(0, n2, '+');
-        floor.set(n2, n2, '+');
-        floor.set(n2, 0, '+');
-        floor.set(n2, floor.getColumns() - 1, '+');
-        floor.set(floor.getRows() - 1, n2, '+');
+        floor = floor.removeColumn(tile.getColumns());
+        floor = floor.removeRow(tile.getRows());
 
         Array2DWriter.writeChar(out, floor);
     }
