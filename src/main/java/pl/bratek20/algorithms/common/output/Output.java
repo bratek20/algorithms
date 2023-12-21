@@ -19,12 +19,21 @@ public class Output {
         print(b ? "true" : "false");
     }
 
+    public void print(int i) {
+        print(String.valueOf(i));
+    }
+
     public void println(String s) {
         outputProducer.print(s + "\n");
     }
 
     public void println(boolean b) {
         print(b);
+        println();
+    }
+
+    public void println(int i) {
+        print(i);
         println();
     }
 
