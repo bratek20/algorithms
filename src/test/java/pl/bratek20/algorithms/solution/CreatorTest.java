@@ -10,10 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CreatorTest {
 
     @Test
-    void shouldCreateFile(@TempDir Path tempDir) {
+    void shouldCreatePuzzle(@TempDir Path tempDir) {
         //given
         var basePath = tempDir.toString() + "/";
-        var creator = new Creator(basePath);
+        var creator = new Creator(basePath, basePath);
 
         //when
         creator.create("SomePuzzle");
@@ -34,6 +34,52 @@ class CreatorTest {
                     public void solve() {
                         //TODO
                     }
+                }
+                """);
+    }
+
+    @Test
+    void shouldCreatePuzzleTest(@TempDir Path tempDir) {
+        //given
+        var basePath = tempDir.toString() + "/";
+        var creator = new Creator(basePath, basePath);
+
+        //when
+        creator.create("SomePuzzle");
+
+        //then
+        var puzzleTestPath = basePath + "pl/bratek20/algorithms/puzzles/SomePuzzleTest.java";
+        var puzzleFile = Path.of(puzzleTestPath);
+        assertThat(puzzleFile)
+            .exists()
+            .hasContent("""
+                package pl.bratek20.algorithms.puzzles;
+                                
+                import pl.bratek20.algorithms.common.puzzle.Puzzle;
+                import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
+                                
+                import java.util.List;
+                                
+                class SomePuzzleTest extends PuzzleTest {
+                                
+                    @Override
+                    protected Puzzle createSolution() {
+                        return new SomePuzzle();
+                    }
+                                
+                    @Override
+                    protected List<TestData> testData() {
+                        return List.of(
+                            new TestData("example",
+                                ""\"
+                                TODO input
+                                ""\",
+                                ""\"
+                                TODO output
+                                ""\"
+                            )
+                        );
+                    }              
                 }
                 """);
     }
