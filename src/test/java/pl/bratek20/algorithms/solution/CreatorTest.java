@@ -21,7 +21,21 @@ class CreatorTest {
         //then
         var puzzlePath = basePath + "pl/bratek20/algorithms/puzzles/SomePuzzle.java";
         var puzzleFile = Path.of(puzzlePath);
-        assertThat(puzzleFile).exists();
+        assertThat(puzzleFile)
+            .exists()
+            .hasContent("""
+                package pl.bratek20.algorithms.puzzles;
+                            
+                import pl.bratek20.algorithms.common.puzzle.Puzzle;
+                            
+                // TODO puzzle URL
+                public class SomePuzzle extends Puzzle {
+                    @Override
+                    public void solve() {
+                        //TODO
+                    }
+                }
+                """);
     }
 
 }

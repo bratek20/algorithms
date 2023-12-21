@@ -18,7 +18,23 @@ public class Creator {
         //create file in src/main/java/pl/bratek20/algorithms/puzzles
         var puzzlePath = Paths.get(basePath + "pl/bratek20/algorithms/puzzles/" + puzzleName + ".java");
         Files.createDirectories(puzzlePath.getParent());
-        Files.write(puzzlePath, "hej".getBytes());
+        Files.write(puzzlePath, getTemplate(puzzleName).getBytes());
+    }
+
+    private String getTemplate(String puzzleName) {
+        return """
+            package pl.bratek20.algorithms.puzzles;
+            
+            import pl.bratek20.algorithms.common.puzzle.Puzzle;
+            
+            // TODO puzzle URL
+            public class %s extends Puzzle {
+                @Override
+                public void solve() {
+                    //TODO
+                }
+            }
+            """.formatted(puzzleName);
     }
 
     public static void main(String[] args) {
