@@ -71,7 +71,7 @@ public class BankRobbers extends Puzzle {
             int pos = x.getRight();
 
             result += min;
-            subtract(times, pos, i + r, min);
+            subtract(times, i, i + r, min);
             swap(times, i, pos);
         }
         result += findMax(times, Math.max(v - r, 0), v);

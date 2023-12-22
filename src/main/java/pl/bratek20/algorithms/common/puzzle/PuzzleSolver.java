@@ -6,7 +6,7 @@ import pl.bratek20.algorithms.common.output.SystemOutputProducer;
 
 public class PuzzleSolver {
     public void solve(Puzzle puzzle) {
-        puzzle.init(new SpyingNextLineProvider(new SystemNextLineProvider()), new SystemOutputProducer());
+        puzzle.init(new SystemNextLineProvider(), new SystemOutputProducer());
         puzzle.solve();
     }
 }
