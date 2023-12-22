@@ -36,6 +36,16 @@ class BankRobbersTest extends PuzzleTest {
                 """
                 110
                 """
+            ),
+            new TestData("more robbers than vaults",
+                """
+                2
+                1
+                1 1
+                """,
+                """
+                10
+                """
             )
         );
     }

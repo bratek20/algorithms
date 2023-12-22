@@ -7,7 +7,7 @@ import pl.bratek20.algorithms.common.utils.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO puzzle URL
+// https://www.codingame.com/ide/puzzle/bank-robbers
 public class BankRobbers extends Puzzle {
     Pair findMin(List<Integer> times, int from, int to) {
         int min = times.get(from);
@@ -74,7 +74,7 @@ public class BankRobbers extends Puzzle {
             subtract(times, pos, i + r, min);
             swap(times, i, pos);
         }
-        result += findMax(times, v - r, v);
+        result += findMax(times, Math.max(v - r, 0), v);
 
         out.println(result);
     }
