@@ -8,7 +8,7 @@ import pl.bratek20.algorithms.solution.clipboard.ClipboardMock;
 public class MainImplTest extends MainApiTest {
 
     @Override
-    protected Context createContext() {
+    public Context createContext() {
         var executorMock = new ExecutorMock();
         var generatorMock = new GeneratorMock();
         var compilerMock = new CompilerMock();
@@ -27,5 +27,4 @@ public class MainImplTest extends MainApiTest {
             clipboardMock
         );
     }
-
 }

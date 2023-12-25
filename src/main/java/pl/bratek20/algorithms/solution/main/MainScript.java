@@ -1,13 +1,17 @@
 package pl.bratek20.algorithms.solution.main;
 
+import lombok.RequiredArgsConstructor;
 import pl.bratek20.algorithms.common.puzzle.PuzzleSolver;
-import pl.bratek20.algorithms.solution.compiler.CompileArgs;
+import pl.bratek20.algorithms.solution.clipboard.Clipboard;
 import pl.bratek20.algorithms.solution.compiler.Compiler;
 import pl.bratek20.algorithms.solution.executor.Executor;
 import pl.bratek20.algorithms.solution.generator.Generator;
 
-public class Main {
-    public static void main(String[] args) {
+@RequiredArgsConstructor
+public class MainScript {
+    private final MainApi api;
+
+    public void run(String[] args) {
         if (args.length < 2) {
             System.out.println("Usage: <command> <puzzleName>");
             return;
@@ -29,29 +33,29 @@ public class Main {
         }
     }
 
-    private static void compile(String puzzleName, boolean spyInput) {
-        var puzzle = new Compiler().compile(new CompileArgs.Builder()
-            .puzzleName(puzzleName)
-            .basePath("src/main/java/")
-            .attachMain(true)
-            .spyInput(spyInput)
-            .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
-            .importWholePackage(true)
-            .build()
-        );
-
+    private void compile(String puzzleName, boolean spyInput) {
+        api.compile(puzzleName, spyInput);
         System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard. Spy input: " + spyInput + ".");
     }
 
-
-
-    private static void generate(String puzzleName) {
-        var creator = new Generator("src/main/java/", "src/test/java/");
-        creator.generate(puzzleName);
+    private void generate(String puzzleName) {
+        api.generate(puzzleName);
+        System.out.println("Generated puzzle " + puzzleName + ".");
     }
 
-    private static void execute(String puzzleName) {
-        var executor = new Executor("pl.bratek20.algorithms.puzzles", new PuzzleSolver());
-        executor.execute(puzzleName);
+    private void execute(String puzzleName) {
+        api.execute(puzzleName);
+        System.out.println("Executed puzzle " + puzzleName + ".");
+    }
+
+    public static void main(String[] args) {
+        var api = new MainImpl(
+            new Executor("pl.bratek20.algorithms.puzzles", new PuzzleSolver()),
+            new Generator("src/main/java/", "src/test/java/"),
+            new Compiler(),
+            new Clipboard()
+        );
+
+        new MainScript(api).run(args);
     }
 }

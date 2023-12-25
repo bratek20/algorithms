@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClass = "pl.bratek20.algorithms.solution.main.Main"
+    mainClass = "pl.bratek20.algorithms.solution.main.MainScript"
 }
 
 group = "pl.bratek20.algorithms"

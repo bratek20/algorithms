@@ -19,7 +19,7 @@ abstract class MainApiTest {
         ClipboardMock clipboardMock
     ) {}
 
-    protected abstract Context createContext();
+    public abstract Context createContext();
     private Context c;
 
     @BeforeEach
