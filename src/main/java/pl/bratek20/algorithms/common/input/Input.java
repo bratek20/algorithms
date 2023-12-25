@@ -1,5 +1,6 @@
 package pl.bratek20.algorithms.common.input;
 
+import pl.bratek20.algorithms.common.array.d1.Array;
 import pl.bratek20.algorithms.common.utils.Pair;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class Input {
         return Stream.of(split).map(Integer::parseInt).toList();
     }
 
-    public <T> List<T> readLines(int n, Function<Input, T> mapper) {
-        return Stream.generate(() -> mapper.apply(this)).limit(n).toList();
+    public <T> Array<T> readLines(int n, Function<Input, T> mapper) {
+        return new Array<>(Stream.generate(() -> mapper.apply(this)).limit(n));
     }
 
     public Pair readIntPair() {

@@ -34,4 +34,11 @@ public abstract class AbstractArray<
             .map(C::getPoint)
             .findFirst();
     }
+
+    public List<P> findAll(Predicate<T> predicate) {
+        return getCells().stream()
+            .filter(cell -> predicate.test(cell.getValue()))
+            .map(C::getPoint)
+            .toList();
+    }
 }

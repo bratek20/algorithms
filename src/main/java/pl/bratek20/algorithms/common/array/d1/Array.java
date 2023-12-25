@@ -4,6 +4,8 @@ import pl.bratek20.algorithms.common.array.AbstractArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>, Array<T>> {
     private final List<ArrayCell<T>> cells;
@@ -13,6 +15,17 @@ public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>, Array<T>> 
         for (int i = 0; i < n; i++) {
             cells.add(new ArrayCell<>(i, defaultValue));
         }
+    }
+
+    public Array(List<T> values) {
+        this.cells = new ArrayList<>(values.size());
+        for (int i = 0; i < values.size(); i++) {
+            cells.add(new ArrayCell<>(i, values.get(i)));
+        }
+    }
+
+    public Array(Stream<T> values) {
+        this(values.toList());
     }
 
     @Override
@@ -33,5 +46,13 @@ public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>, Array<T>> 
     @Override
     public void set(Integer point, T value) {
         cells.get(point).setValue(value);
+    }
+
+    public <NT> Array<NT> map(Function<ArrayCell<T>, NT> mapper) {
+        return super.abstractMap(mapper);
+    }
+
+    public int size() {
+        return cells.size();
     }
 }
