@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.executor;
 
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.puzzle.PuzzleSolver;

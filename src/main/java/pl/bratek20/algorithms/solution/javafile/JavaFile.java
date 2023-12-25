@@ -1,6 +1,8 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.javafile;
 
 import lombok.SneakyThrows;
+import pl.bratek20.algorithms.solution.filecontent.FileContent;
+import pl.bratek20.algorithms.solution.filecontent.FileContentBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

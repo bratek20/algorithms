@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.filecontent;
 
 public class FileContentBuilder {
     private final StringBuilder current = new StringBuilder();

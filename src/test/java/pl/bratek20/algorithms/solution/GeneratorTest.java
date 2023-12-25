@@ -2,18 +2,19 @@ package pl.bratek20.algorithms.solution;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import pl.bratek20.algorithms.solution.generator.Generator;
 
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CreatorTest {
+class GeneratorTest {
 
     @Test
     void shouldCreatePuzzle(@TempDir Path tempDir) {
         //given
         var basePath = tempDir.toString() + "/";
-        var creator = new Creator(basePath, basePath);
+        var creator = new Generator(basePath, basePath);
 
         //when
         creator.create("SomePuzzle");
@@ -42,7 +43,7 @@ class CreatorTest {
     void shouldCreatePuzzleTest(@TempDir Path tempDir) {
         //given
         var basePath = tempDir.toString() + "/";
-        var creator = new Creator(basePath, basePath);
+        var creator = new Generator(basePath, basePath);
 
         //when
         creator.create("SomePuzzle");

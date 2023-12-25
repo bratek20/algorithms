@@ -1,6 +1,8 @@
 package pl.bratek20.algorithms.solution;
 
 import org.junit.jupiter.api.Test;
+import pl.bratek20.algorithms.solution.compiler.Compiler;
+import pl.bratek20.algorithms.solution.compiler.CompilerConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,6 +1,5 @@
 package pl.bratek20.algorithms.common.puzzle;
 
-import pl.bratek20.algorithms.common.input.SpyingNextLineProvider;
 import pl.bratek20.algorithms.common.input.SystemNextLineProvider;
 import pl.bratek20.algorithms.common.output.SystemOutputProducer;
 

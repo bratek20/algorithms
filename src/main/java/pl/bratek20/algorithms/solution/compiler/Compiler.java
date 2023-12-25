@@ -1,4 +1,10 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.compiler;
+
+import pl.bratek20.algorithms.solution.filecontent.FileContent;
+import pl.bratek20.algorithms.solution.filecontent.FileContentBuilder;
+import pl.bratek20.algorithms.solution.javafile.Import;
+import pl.bratek20.algorithms.solution.javafile.JavaFile;
+import pl.bratek20.algorithms.solution.javafile.JavaPackageFiles;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -88,32 +94,5 @@ public class Compiler {
             compileFile(importFile, builder);
         }
 
-    }
-
-    public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Usage: java Compiler <puzzleName>");
-            return;
-        }
-
-        var compiler = new Compiler(new CompilerConfig.Builder()
-            .basePath("src/main/java/")
-            .attachMain(true)
-            .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
-            .importWholePackage(true)
-            .build()
-        );
-
-        var puzzleName = args[0];
-        var puzzle = compiler.compile(puzzleName);
-
-        copyToClipboard(puzzle);
-        System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard");
-    }
-
-    private static void copyToClipboard(String text) {
-        var clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        var transferable = new StringSelection(text);
-        clipboard.setContents(transferable, null);
     }
 }

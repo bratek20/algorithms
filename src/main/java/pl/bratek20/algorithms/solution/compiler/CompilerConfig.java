@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.compiler;
 
 import java.util.List;
 import java.util.Optional;

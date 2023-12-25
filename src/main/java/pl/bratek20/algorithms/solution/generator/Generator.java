@@ -1,15 +1,15 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.generator;
 
 import lombok.SneakyThrows;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Creator {
+public class Generator {
     private final String srcPath;
     private final String testPath;
 
-    public Creator(String srcPath, String testPath) {
+    public Generator(String srcPath, String testPath) {
         this.srcPath = srcPath;
         this.testPath = testPath;
     }
@@ -81,7 +81,7 @@ public class Creator {
             return;
         }
 
-        var creator = new Creator("src/main/java/", "src/test/java/");
+        var creator = new Generator("src/main/java/", "src/test/java/");
 
         var puzzleName = args[0];
         creator.create(puzzleName);
