@@ -18,6 +18,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.6.1")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
 }
 
 tasks.test {

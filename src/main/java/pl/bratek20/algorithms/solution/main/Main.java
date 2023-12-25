@@ -1,5 +1,6 @@
 package pl.bratek20.algorithms.solution.main;
 
+import pl.bratek20.algorithms.common.puzzle.PuzzleSolver;
 import pl.bratek20.algorithms.solution.compiler.Compiler;
 import pl.bratek20.algorithms.solution.compiler.CompilerConfig;
 import pl.bratek20.algorithms.solution.executor.Executor;
@@ -57,7 +58,7 @@ public class Main {
     }
 
     private static void execute(String puzzleName) {
-        var executor = new Executor();
+        var executor = new Executor("pl.bratek20.algorithms.puzzles", new PuzzleSolver());
         executor.execute(puzzleName);
     }
 }
