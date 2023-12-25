@@ -35,12 +35,14 @@ public class Compiler {
         compileFile(file, solutionBuilder);
 
         if (config.attachMain) {
+            var newPuzzleSolver = config.spyInput ? "new PuzzleSolver(true)" : "new PuzzleSolver()";
+
             solutionBuilder
                 .addContent(new FileContent("""
                 public static void main(String[] args) {
-                    new PuzzleSolver().solve(new %s());
+                    %s.solve(new %s());
                 }
-                """.formatted(puzzleName)));
+                """.formatted(newPuzzleSolver, puzzleName)));
         }
 
         solutionBuilder

@@ -16,9 +16,10 @@ class CompilerTest {
         return new Compiler(builderWithBasePath().build());
     }
 
-    private Compiler createCompilerWithMainAttached() {
+    private Compiler createCompilerWithMainAttached(boolean spyInput) {
         return new Compiler(builderWithBasePath()
             .attachMain(true)
+            .spyInput(spyInput)
             .build()
         );
     }
@@ -130,7 +131,7 @@ class CompilerTest {
     @Test
     void shouldAttachMain() {
         //given
-        var compiler = createCompilerWithMainAttached();
+        var compiler = createCompilerWithMainAttached(false);
 
         //when
         var result = compiler.compile("NoImports");
@@ -144,6 +145,28 @@ class CompilerTest {
             
             public static void main(String[] args) {        
                 new PuzzleSolver().solve(new NoImports());
+            }
+        }
+        """);
+    }
+
+    @Test
+    void shouldAttachMainWithSpyInput() {
+        //given
+        var compiler = createCompilerWithMainAttached(true);
+
+        //when
+        var result = compiler.compile("NoImports");
+
+        //then
+        assertThat(result).isEqualToIgnoringWhitespace("""
+        class Solution {
+            public static class NoImports {
+                
+            }
+            
+            public static void main(String[] args) {        
+                new PuzzleSolver(true).solve(new NoImports());
             }
         }
         """);

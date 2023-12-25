@@ -21,7 +21,8 @@ public class Main {
         System.out.printf("Command: [%s], puzzle name [%s]\n", command, puzzleName);
 
         if (command.equals("-c")) {
-            compile(puzzleName);
+            var spyInput = args.length > 2 && args[2].equals("-spy");
+            compile(puzzleName, spyInput);
         } else if (command.equals("-g")) {
             generate(puzzleName);
         } else if (command.equals("-e")) {
@@ -31,10 +32,11 @@ public class Main {
         }
     }
 
-    private static void compile(String puzzleName) {
+    private static void compile(String puzzleName, boolean spyInput) {
         var compiler = new Compiler(new CompilerConfig.Builder()
             .basePath("src/main/java/")
             .attachMain(true)
+            .spyInput(spyInput)
             .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
             .importWholePackage(true)
             .build()
@@ -43,7 +45,7 @@ public class Main {
         var puzzle = compiler.compile(puzzleName);
 
         copyToClipboard(puzzle);
-        System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard");
+        System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard. Spy input: " + spyInput + ".");
     }
 
     private static void copyToClipboard(String text) {
