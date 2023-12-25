@@ -56,7 +56,7 @@ public class Main {
 
     private static void generate(String puzzleName) {
         var creator = new Generator("src/main/java/", "src/test/java/");
-        creator.create(puzzleName);
+        creator.generate(puzzleName);
     }
 
     private static void execute(String puzzleName) {

@@ -1,6 +1,7 @@
 package pl.bratek20.algorithms.solution.generator;
 
 import lombok.SneakyThrows;
+import pl.bratek20.algorithms.solution.casing.CaseUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,10 +16,12 @@ public class Generator {
     }
 
     @SneakyThrows
-    public void create(String puzzleName) {
+    public void generate(String puzzleUrl) {
+        var puzzleName = extractPuzzleName(puzzleUrl);
+
         var puzzlePath = Paths.get(srcPath + "pl/bratek20/algorithms/puzzles/" + puzzleName + ".java");
         Files.createDirectories(puzzlePath.getParent());
-        Files.write(puzzlePath, getTemplate(puzzleName).getBytes());
+        Files.write(puzzlePath, getTemplate(puzzleName, puzzleUrl).getBytes());
 
         var puzzleTestPath = Paths.get(testPath + "pl/bratek20/algorithms/puzzles/" + puzzleName + "Test.java");
         Files.createDirectories(puzzleTestPath.getParent());
@@ -26,20 +29,26 @@ public class Generator {
 
     }
 
-    private String getTemplate(String puzzleName) {
+    private String extractPuzzleName(String url) {
+        var parts = url.split("/");
+        var puzzleNameKebabCase = parts[parts.length-1];
+        return CaseUtils.kebabToPascal(puzzleNameKebabCase);
+    }
+
+    private String getTemplate(String puzzleName, String puzzleUrl) {
         return """
             package pl.bratek20.algorithms.puzzles;
             
             import pl.bratek20.algorithms.common.puzzle.Puzzle;
             
-            // TODO puzzle URL
+            // %s
             public class %s extends Puzzle {
                 @Override
                 public void solve() {
                     //TODO
                 }
             }
-            """.formatted(puzzleName);
+            """.formatted(puzzleUrl, puzzleName);
     }
 
     private String getTestTemplate(String puzzleName) {
@@ -84,7 +93,7 @@ public class Generator {
         var creator = new Generator("src/main/java/", "src/test/java/");
 
         var puzzleName = args[0];
-        creator.create(puzzleName);
+        creator.generate(puzzleName);
 
         System.out.println("Created puzzle: " + puzzleName);
     }

@@ -9,15 +9,16 @@ import java.nio.file.Path;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GeneratorTest {
+    static final String SOME_PUZZLE_URL = "https://www.codingame.com/ide/puzzle/some-puzzle";
 
     @Test
-    void shouldCreatePuzzle(@TempDir Path tempDir) {
+    void shouldGeneratePuzzleFromURL(@TempDir Path tempDir) {
         //given
         var basePath = tempDir.toString() + "/";
-        var creator = new Generator(basePath, basePath);
+        var generator = new Generator(basePath, basePath);
 
         //when
-        creator.create("SomePuzzle");
+        generator.generate(SOME_PUZZLE_URL);
 
         //then
         var puzzlePath = basePath + "pl/bratek20/algorithms/puzzles/SomePuzzle.java";
@@ -29,7 +30,7 @@ class GeneratorTest {
                             
                 import pl.bratek20.algorithms.common.puzzle.Puzzle;
                             
-                // TODO puzzle URL
+                // https://www.codingame.com/ide/puzzle/some-puzzle
                 public class SomePuzzle extends Puzzle {
                     @Override
                     public void solve() {
@@ -40,13 +41,13 @@ class GeneratorTest {
     }
 
     @Test
-    void shouldCreatePuzzleTest(@TempDir Path tempDir) {
+    void shouldGeneratePuzzleTestFromURL(@TempDir Path tempDir) {
         //given
         var basePath = tempDir.toString() + "/";
-        var creator = new Generator(basePath, basePath);
+        var generator = new Generator(basePath, basePath);
 
         //when
-        creator.create("SomePuzzle");
+        generator.generate(SOME_PUZZLE_URL);
 
         //then
         var puzzleTestPath = basePath + "pl/bratek20/algorithms/puzzles/SomePuzzleTest.java";
