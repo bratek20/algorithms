@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.javafile;
 
 import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.solution.javafile.Import;

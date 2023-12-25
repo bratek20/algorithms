@@ -1,4 +1,4 @@
-package pl.bratek20.algorithms.solution;
+package pl.bratek20.algorithms.solution.generator;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
