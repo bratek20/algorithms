@@ -24,4 +24,8 @@ public record Array2DPoint(int row, int column) {
                 new Array2DPoint(row + 1, column + 1)
         );
     }
+
+    public Array2DPoint add(Array2DPoint other) {
+        return new Array2DPoint(row + other.row, column + other.column);
+    }
 }
