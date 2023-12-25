@@ -1,6 +1,8 @@
 plugins {
     application
     id("io.freefair.lombok") version "8.4"
+
+    `java-test-fixtures`
 }
 
 application {
@@ -19,6 +21,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.6.1")
     testImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
+
+    testFixturesImplementation("org.mockito:mockito-junit-jupiter:3.12.4")
 }
 
 tasks.test {

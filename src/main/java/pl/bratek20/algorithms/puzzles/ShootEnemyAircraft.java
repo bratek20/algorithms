@@ -5,7 +5,6 @@ import pl.bratek20.algorithms.common.array.d2.CharArray2D;
 import pl.bratek20.algorithms.common.input.Input;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 
-import java.util.HashSet;
 import java.util.TreeSet;
 
 // https://www.codingame.com/ide/puzzle/shoot-enemy-aircraft
