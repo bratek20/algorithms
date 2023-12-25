@@ -6,21 +6,17 @@ import pl.bratek20.algorithms.solution.javafile.Import;
 import pl.bratek20.algorithms.solution.javafile.JavaFile;
 import pl.bratek20.algorithms.solution.javafile.JavaPackageFiles;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.util.*;
 
 public class Compiler {
-    private final CompilerConfig config;
     private final Set<String> alreadyCompiledFiles = new HashSet<>();
     private final Set<String> externalImports = new HashSet<>();
+    private CompileArgs args;
 
-    public Compiler(CompilerConfig config) {
-        this.config = config;
-    }
+    public String compile(CompileArgs args) {
+        this.args = args;
 
-    public String compile(String puzzleName) {
-        String filePath = config.basePath + "pl/bratek20/algorithms/puzzles/" + puzzleName + ".java";
+        String filePath = args.basePath() + "pl/bratek20/algorithms/puzzles/" + args.puzzleName() + ".java";
         var file = new JavaFile(filePath);
 
         var solutionBuilder = new FileContentBuilder();
@@ -29,20 +25,20 @@ public class Compiler {
             .addLine("class Solution {")
             .addIndent(4);
 
-        config.compileImports
+        args.compileImports()
             .forEach(importLine -> compileForImport(new Import(importLine), solutionBuilder));
 
         compileFile(file, solutionBuilder);
 
-        if (config.attachMain) {
-            var newPuzzleSolver = config.spyInput ? "new PuzzleSolver(true)" : "new PuzzleSolver()";
+        if (args.attachMain()) {
+            var newPuzzleSolver = args.spyInput() ? "new PuzzleSolver(true)" : "new PuzzleSolver()";
 
             solutionBuilder
                 .addContent(new FileContent("""
                 public static void main(String[] args) {
                     %s.solve(new %s());
                 }
-                """.formatted(newPuzzleSolver, puzzleName)));
+                """.formatted(newPuzzleSolver, args.puzzleName())));
         }
 
         solutionBuilder
@@ -84,14 +80,14 @@ public class Compiler {
             return;
         }
 
-        if (config.importWholePackage) {
-            var packagePath = importLine.getPackageFilePath(config.basePath);
+        if (args.importWholePackage()) {
+            var packagePath = importLine.getPackageFilePath(args.basePath());
             var packageFiles = new JavaPackageFiles(packagePath);
             packageFiles.getFiles()
                 .forEach(file -> compileFile(file, builder));
         }
         else {
-            var path = importLine.getFilePath(config.basePath);
+            var path = importLine.getFilePath(args.basePath());
             var importFile = new JavaFile(path);
             compileFile(importFile, builder);
         }

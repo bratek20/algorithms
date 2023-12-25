@@ -2,6 +2,10 @@ package pl.bratek20.algorithms.solution.main;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import pl.bratek20.algorithms.solution.compiler.CompileArgs;
+import pl.bratek20.algorithms.solution.compiler.CompilerMock;
 import pl.bratek20.algorithms.solution.executor.ExecutorMock;
 import pl.bratek20.algorithms.solution.generator.GeneratorMock;
 
@@ -9,7 +13,8 @@ abstract class MainApiTest {
     record Context(
         MainApi api,
         ExecutorMock executorMock,
-        GeneratorMock generatorMock
+        GeneratorMock generatorMock,
+        CompilerMock compilerMock
     ) {}
 
     protected abstract Context createContext();
@@ -20,9 +25,20 @@ abstract class MainApiTest {
         c = createContext();
     }
 
-    @Test
-    void shouldCompile() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void shouldCompile(boolean spyInput) {
+        c.api().compile("puzzleName", spyInput);
 
+        c.compilerMock().assertCompileCalledOnce(new CompileArgs.Builder()
+            .puzzleName("puzzleName")
+            .basePath("src/main/java/")
+            .attachMain(true)
+            .spyInput(spyInput)
+            .compileImports("pl.bratek20.algorithms.common.puzzle.PuzzleSolver")
+            .importWholePackage(true)
+            .build()
+        );
     }
 
     @Test

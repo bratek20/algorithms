@@ -2,7 +2,7 @@ package pl.bratek20.algorithms.solution.main;
 
 import pl.bratek20.algorithms.common.puzzle.PuzzleSolver;
 import pl.bratek20.algorithms.solution.compiler.Compiler;
-import pl.bratek20.algorithms.solution.compiler.CompilerConfig;
+import pl.bratek20.algorithms.solution.compiler.CompileArgs;
 import pl.bratek20.algorithms.solution.executor.Executor;
 import pl.bratek20.algorithms.solution.generator.Generator;
 
@@ -33,7 +33,8 @@ public class Main {
     }
 
     private static void compile(String puzzleName, boolean spyInput) {
-        var compiler = new Compiler(new CompilerConfig.Builder()
+        var puzzle = new Compiler().compile(new CompileArgs.Builder()
+            .puzzleName(puzzleName)
             .basePath("src/main/java/")
             .attachMain(true)
             .spyInput(spyInput)
@@ -41,8 +42,6 @@ public class Main {
             .importWholePackage(true)
             .build()
         );
-
-        var puzzle = compiler.compile(puzzleName);
 
         copyToClipboard(puzzle);
         System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard. Spy input: " + spyInput + ".");

@@ -1,23 +1,22 @@
 package pl.bratek20.algorithms.solution.compiler;
 
 import org.junit.jupiter.api.Test;
-import pl.bratek20.algorithms.solution.compiler.Compiler;
-import pl.bratek20.algorithms.solution.compiler.CompilerConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CompilerTest {
-    private CompilerConfig.Builder builderWithBasePath() {
-        return new CompilerConfig.Builder()
+    private CompileArgs.Builder builderWithBasePath(String puzzleName) {
+        return new CompileArgs.Builder()
+            .puzzleName(puzzleName)
             .basePath("src/test/resources/solution/");
     }
 
-    private Compiler createCompiler() {
-        return new Compiler(builderWithBasePath().build());
+    private String compile(String puzzleName) {
+        return new Compiler().compile(builderWithBasePath(puzzleName).build());
     }
 
-    private Compiler createCompilerWithMainAttached(boolean spyInput) {
-        return new Compiler(builderWithBasePath()
+    private String compileWithMainAttached(String puzzleName, boolean spyInput) {
+        return new Compiler().compile(builderWithBasePath(puzzleName)
             .attachMain(true)
             .spyInput(spyInput)
             .build()
@@ -25,15 +24,15 @@ class CompilerTest {
     }
 
 
-    private Compiler createCompilerWithCompileImports(String ...imports) {
-        return new Compiler(builderWithBasePath()
+    private String compileWithCompileImports(String puzzleName, String ...imports) {
+        return new Compiler().compile(builderWithBasePath(puzzleName)
             .compileImports(imports)
             .build()
         );
     }
 
-    private Compiler createCompilerWithImportWholePackage() {
-        return new Compiler(builderWithBasePath()
+    private String compileWithImportWholePackage(String puzzleName) {
+        return new Compiler().compile(builderWithBasePath(puzzleName)
             .importWholePackage(true)
             .build()
         );
@@ -42,11 +41,8 @@ class CompilerTest {
 
     @Test
     void shouldCompilePuzzleWithNoImports() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("NoImports");
+        var result = compile("NoImports");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -60,11 +56,8 @@ class CompilerTest {
 
     @Test
     void shouldCompilePuzzleWithSimpleImport() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("SimpleImport");
+        var result = compile("SimpleImport");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -82,11 +75,8 @@ class CompilerTest {
 
     @Test
     void shouldCompilePuzzleWithInPackageImport() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("InPackageImport");
+        var result = compile("InPackageImport");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -104,11 +94,8 @@ class CompilerTest {
 
     @Test
     void shouldCompilePuzzleWithClassReferencingOther() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("ReferencingImport");
+        var result = compile("ReferencingImport");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -130,11 +117,8 @@ class CompilerTest {
 
     @Test
     void shouldAttachMain() {
-        //given
-        var compiler = createCompilerWithMainAttached(false);
-
         //when
-        var result = compiler.compile("NoImports");
+        var result = compileWithMainAttached("NoImports", false);
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -152,11 +136,8 @@ class CompilerTest {
 
     @Test
     void shouldAttachMainWithSpyInput() {
-        //given
-        var compiler = createCompilerWithMainAttached(true);
-
         //when
-        var result = compiler.compile("NoImports");
+        var result = compileWithMainAttached("NoImports", true);
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -174,11 +155,8 @@ class CompilerTest {
 
     @Test
     void shouldAddClassesForCompileImports() {
-        //given
-        var compiler = createCompilerWithCompileImports("pl.bratek20.algorithms.common.SomeClass");
-
         //when
-        var result = compiler.compile("NoImports");
+        var result = compileWithCompileImports("NoImports", "pl.bratek20.algorithms.common.SomeClass");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -196,11 +174,8 @@ class CompilerTest {
 
     @Test
     void shouldPutExternalImportsAsSolutionImports() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("ExternalImports");
+        var result = compile("ExternalImports");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -217,11 +192,8 @@ class CompilerTest {
 
     @Test
     void shouldImportClassAtMostOnce() {
-        //given
-        var compiler = createCompiler();
-
         //when
-        var result = compiler.compile("SameImportInImportedClasses");
+        var result = compile("SameImportInImportedClasses");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
@@ -248,11 +220,8 @@ class CompilerTest {
 
     @Test
     void shouldImportWholePackageEvenIfOnlyOneFileImported() {
-        //given
-        var compiler = createCompilerWithImportWholePackage();
-
         //when
-        var result = compiler.compile("InPackageImport");
+        var result = compileWithImportWholePackage("InPackageImport");
 
         //then
         assertThat(result).isEqualToIgnoringWhitespace("""
