@@ -1,6 +1,7 @@
 package pl.bratek20.algorithms.solution.main;
 
 import lombok.RequiredArgsConstructor;
+import pl.bratek20.algorithms.solution.clipboard.Clipboard;
 import pl.bratek20.algorithms.solution.compiler.CompileArgs;
 import pl.bratek20.algorithms.solution.executor.Executor;
 import pl.bratek20.algorithms.solution.generator.Generator;
@@ -11,10 +12,11 @@ public class MainImpl implements MainApi {
     private final Executor executor;
     private final Generator generator;
     private final Compiler compiler;
+    private final Clipboard clipboard;
 
     @Override
     public void compile(String puzzleName, boolean spyInput) {
-        compiler.compile(new CompileArgs.Builder()
+        var compiledPuzzle = compiler.compile(new CompileArgs.Builder()
             .puzzleName(puzzleName)
             .basePath("src/main/java/")
             .attachMain(true)
@@ -23,6 +25,8 @@ public class MainImpl implements MainApi {
             .importWholePackage(true)
             .build()
         );
+
+        clipboard.copy(compiledPuzzle);
     }
 
     @Override

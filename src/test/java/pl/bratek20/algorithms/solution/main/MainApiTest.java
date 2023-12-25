@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import pl.bratek20.algorithms.solution.clipboard.ClipboardMock;
 import pl.bratek20.algorithms.solution.compiler.CompileArgs;
 import pl.bratek20.algorithms.solution.compiler.CompilerMock;
 import pl.bratek20.algorithms.solution.executor.ExecutorMock;
@@ -14,7 +15,8 @@ abstract class MainApiTest {
         MainApi api,
         ExecutorMock executorMock,
         GeneratorMock generatorMock,
-        CompilerMock compilerMock
+        CompilerMock compilerMock,
+        ClipboardMock clipboardMock
     ) {}
 
     protected abstract Context createContext();
@@ -27,7 +29,11 @@ abstract class MainApiTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    void shouldCompile(boolean spyInput) {
+    void shouldCompileAndCopyToClipboard(boolean spyInput) {
+        String COMPILED_PUZZLE = "compiled puzzle";
+
+        c.compilerMock.setCompileResult(COMPILED_PUZZLE);
+
         c.api().compile("puzzleName", spyInput);
 
         c.compilerMock().assertCompileCalledOnce(new CompileArgs.Builder()
@@ -39,6 +45,8 @@ abstract class MainApiTest {
             .importWholePackage(true)
             .build()
         );
+
+        c.clipboardMock().assertCopyCalledOnce(COMPILED_PUZZLE);
     }
 
     @Test

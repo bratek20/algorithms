@@ -11,4 +11,8 @@ public class CompilerMock {
     public void assertCompileCalledOnce(CompileArgs args) {
         verify(value).compile(args);
     }
+
+    public void setCompileResult(String compiledPuzzle) {
+        when(value.compile(any())).thenReturn(compiledPuzzle);
+    }
 }
