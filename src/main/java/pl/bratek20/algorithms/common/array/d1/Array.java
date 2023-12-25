@@ -35,7 +35,7 @@ public class Array<T> extends AbstractArray<T, Integer, ArrayCell<T>, Array<T>> 
 
     @Override
     protected Array<T> emptyCopy() {
-        return null;
+        return new Array<>(cells.size(), null);
     }
 
     @Override
