@@ -46,6 +46,7 @@ public class ShikakuSolver extends Puzzle {
             var flattenedStr = new StringBuilder();
             flattened.forEach(cell -> flattenedStr.append(cell.getValue()));
             solutions.put(flattenedStr.toString(), solutionStr);
+            return;
         }
 
         var point = points.get(pointIdx);
