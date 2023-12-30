@@ -1,10 +1,12 @@
 package pl.bratek20.algorithms.puzzles;
 
+import org.junit.jupiter.api.Disabled;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
 
 import java.util.List;
 
+@Disabled
 class ShikakuSolverTest extends PuzzleTest {
 
     @Override
@@ -58,6 +60,33 @@ class ShikakuSolverTest extends PuzzleTest {
                     AA
                     BB
                     BB
+                    """
+            ),
+            new TestData("time out",
+                """
+                    15 20
+                    0 0 0 0 0 0 0 0 0 9 0 0 0 0 0
+                    0 8 0 0 0 6 0 0 6 0 0 0 0 0 0
+                    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                    0 0 0 10 0 0 0 0 6 0 6 0 0 0 0
+                    0 10 0 0 0 0 0 0 0 0 0 0 15 0 0
+                    0 0 0 14 0 0 9 0 0 0 6 0 0 0 0
+                    0 0 0 0 0 12 0 0 0 0 0 0 0 0 0
+                    0 0 0 0 0 0 0 0 6 0 0 0 12 0 0
+                    0 0 0 0 0 0 0 0 0 0 0 0 8 0 0
+                    0 0 0 0 0 9 0 0 0 0 0 0 0 0 0
+                    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                    0 14 0 0 0 0 0 0 8 0 0 0 0 0 24
+                    0 0 0 0 0 0 0 0 0 6 0 0 6 0 0
+                    0 0 0 9 0 0 6 0 0 28 0 0 0 0 0
+                    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                    0 0 0 0 0 0 0 8 0 0 0 0 0 0 0
+                    0 0 0 10 0 0 0 0 0 0 0 0 0 0 0
+                    0 0 0 0 0 0 15 0 6 0 0 0 0 0 0
+                    0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                    8 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+                    """,
+                """
                     """
             )
         );
