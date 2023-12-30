@@ -248,4 +248,22 @@ public class Array2D<T> extends AbstractArray<T, Array2DPoint, Array2DCell<T>, A
     public Array2D<T> addRow(int rowPosition, T value) {
         return addRow(rowPosition, new Array<>(columns, value));
     }
+
+    public Array<T> flatByRows() {
+        Array<T> result = new Array<>(rows * columns, null);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                result.set(i * columns + j, get(i, j));
+            }
+        }
+        return result;
+    }
+
+    public void fillRectangle(Array2DPoint start, Array2DPoint end, T value) {
+        for (int i = start.row(); i <= end.row(); i++) {
+            for (int j = start.column(); j <= end.column(); j++) {
+                set(i, j, value);
+            }
+        }
+    }
 }

@@ -28,4 +28,8 @@ public record Array2DPoint(int row, int column) {
     public Array2DPoint add(Array2DPoint other) {
         return new Array2DPoint(row + other.row, column + other.column);
     }
+
+    public Array2DPoint subtract(Array2DPoint other) {
+        return new Array2DPoint(row - other.row, column - other.column);
+    }
 }

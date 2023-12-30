@@ -42,6 +42,23 @@ class ShikakuSolverTest extends PuzzleTest {
                     FFJJKKLLII
                     FFJJKKLLII
                     """
+            ),
+            new TestData("more then one solution",
+                """
+                    2 4
+                    0 4
+                    0 0
+                    4 0
+                    0 0
+                    0 0
+                    """,
+                """
+                    2
+                    AA
+                    AA
+                    BB
+                    BB
+                    """
             )
         );
     }

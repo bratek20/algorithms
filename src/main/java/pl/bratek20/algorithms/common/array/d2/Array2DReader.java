@@ -26,6 +26,13 @@ public class Array2DReader {
         return result;
     }
 
+    public static Array2D<Integer> readIntRectangle(Input in) {
+        var p = in.readIntPair();
+        int w = p.getLeft();
+        int h = p.getRight();
+        return readInt(w, h, in);
+    }
+
     public static Array2D<Integer> readInt(int w, int h, Input in) {
         var result = new Array2D<>(w, h, 0);
         for (int i = 0; i < h; i++) {
