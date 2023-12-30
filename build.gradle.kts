@@ -14,9 +14,19 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+
+    maven {
+        url = uri("https://maven.pkg.github.com/bratek20/commons")
+        credentials {
+            username = (findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")).toString()
+            password = (findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")).toString()
+        }
+    }
 }
 
 dependencies {
+    implementation("pl.bratek20:bratek20-commons:1.0.2")
+
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.6.1")

@@ -25,17 +25,17 @@ public class MainScriptTest extends MainApiTest {
 
         @Override
         public void compile(String puzzleName, boolean spyInput) {
-            script.run(new String[]{"-c", puzzleName, spyInput ? "-spy" : ""});
+            script.run(new String[]{"-c", "-pn", puzzleName, spyInput ? "-spy" : ""});
         }
 
         @Override
         public void generate(String puzzleUrl) {
-            script.run(new String[]{"-g", puzzleUrl});
+            script.run(new String[]{"-g", "-pu", puzzleUrl});
         }
 
         @Override
         public void execute(String puzzleName) {
-            script.run(new String[]{"-e", puzzleName});
+            script.run(new String[]{"-e", "-pn", puzzleName});
         }
     }
 }

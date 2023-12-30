@@ -1,51 +1,71 @@
 package pl.bratek20.algorithms.solution.main;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import pl.bratek20.algorithms.common.puzzle.PuzzleSolver;
 import pl.bratek20.algorithms.solution.clipboard.Clipboard;
 import pl.bratek20.algorithms.solution.compiler.Compiler;
 import pl.bratek20.algorithms.solution.executor.Executor;
 import pl.bratek20.algorithms.solution.generator.Generator;
+import pl.bratek20.commons.script.CreateArgsException;
+import pl.bratek20.commons.script.Script;
 
-@RequiredArgsConstructor
-public class MainScript {
-    private final MainApi api;
+public class MainScript extends Script<MainApi, MainScript.Args> {
 
-    public void run(String[] args) {
-        if (args.length < 2) {
-            System.out.println("Usage: <command> <puzzleName>");
-            return;
-        }
+    protected MainScript(MainApi mainApi) {
+        super(mainApi);
+    }
 
-        var command = args[0];
-        var puzzleName = args[1];
-        System.out.printf("Command: [%s], puzzle name [%s]\n", command, puzzleName);
+    public interface Args {
 
-        if (command.equals("-c")) {
-            var spyInput = args.length > 2 && args[2].equals("-spy");
-            compile(puzzleName, spyInput);
-        } else if (command.equals("-g")) {
-            generate(puzzleName);
-        } else if (command.equals("-e")) {
-            execute(puzzleName);
+    }
+    record CompileArgs(String puzzleName, boolean spyInput) implements Args { }
+    record GenerateArgs(String puzzleUrl) implements Args { }
+    record ExecuteArgs(String puzzleName) implements Args { }
+
+    @Override
+    protected void addOptions(Options options) {
+        options.addOption("c", "compile", false, "Compile command");
+        options.addOption("g", "generate", false, "Generate command");
+        options.addOption("e", "execute", false, "Execute command");
+
+        options.addOption("pn", "puzzleName", true, "Puzzle name");
+        options.addOption("pu", "puzzleUrl", true, "Puzzle url");
+
+        options.addOption("spy", "spyInput", false, "Spy input (only used by compile)");
+    }
+
+    @Override
+    protected Args createArgs(CommandLine commandLine) throws CreateArgsException {
+        if (commandLine.hasOption("c")) {
+            var puzzleName = commandLine.getOptionValue("pn");
+            var spyInput = commandLine.hasOption("spy");
+            return new CompileArgs(puzzleName, spyInput);
+        } else if (commandLine.hasOption("g")) {
+            var puzzleUrl = commandLine.getOptionValue("pu");
+            return new GenerateArgs(puzzleUrl);
+        } else if (commandLine.hasOption("e")) {
+            var puzzleName = commandLine.getOptionValue("pn");
+            return new ExecuteArgs(puzzleName);
         } else {
-            System.out.printf("Command %s not found. Commands: -c, -g, -e\n", command);
+            throw new CreateArgsException("Command not found");
         }
     }
 
-    private void compile(String puzzleName, boolean spyInput) {
-        api.compile(puzzleName, spyInput);
-        System.out.println("Compiled puzzle " + puzzleName + " copied to clipboard. Spy input: " + spyInput + ".");
-    }
-
-    private void generate(String puzzleName) {
-        api.generate(puzzleName);
-        System.out.println("Generated puzzle " + puzzleName + ".");
-    }
-
-    private void execute(String puzzleName) {
-        api.execute(puzzleName);
-        System.out.println("Executed puzzle " + puzzleName + ".");
+    @Override
+    protected String run(MainApi api, Args args) {
+        if (args instanceof CompileArgs compileArgs) {
+            api.compile(compileArgs.puzzleName(), compileArgs.spyInput());
+            return "Compiled puzzle " + compileArgs.puzzleName() + " copied to clipboard. Spy input: " + compileArgs.spyInput() + ".";
+        } else if (args instanceof GenerateArgs generateArgs) {
+            api.generate(generateArgs.puzzleUrl());
+            return "Generated puzzle " + generateArgs.puzzleUrl() + ".";
+        } else if (args instanceof ExecuteArgs executeArgs) {
+            api.execute(executeArgs.puzzleName());
+            return "Executed puzzle " + executeArgs.puzzleName() + ".";
+        }
+        return "Command not found";
     }
 
     public static void main(String[] args) {
