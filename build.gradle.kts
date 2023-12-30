@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    implementation("pl.bratek20:bratek20-commons:1.0.2")
+    implementation("pl.bratek20:bratek20-commons:1.0.3")
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
