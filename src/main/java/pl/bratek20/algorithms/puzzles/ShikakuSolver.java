@@ -15,7 +15,7 @@ public class ShikakuSolver extends Puzzle {
     TreeMap<String, Array2D<Character>> solutions = new TreeMap<>();
     Array2D<Integer> solution;
     record X(int pointIdx, Array2DPoint size) {}
-    Array2D<Set<X>> allStartingHere;
+    Array2D<List<X>> allStartingHere;
 
     char getChar(int value) {
         return (char) ('A' + value);
@@ -139,7 +139,8 @@ public class ShikakuSolver extends Puzzle {
 
     void fillAllStartingHereFor(int pointIdx, Pair pair) {
         var size = new Array2DPoint(pair.getLeft() - 1, pair.getRight() - 1);
-        allStartPoints(pointIdx, pair).forEach(startPoint -> {
+        var all = allStartPoints(pointIdx, pair);
+        all.forEach(startPoint -> {
             var endPoint = startPoint.add(size);
             if (fits2(startPoint, endPoint)) {
                 allStartingHere.get(startPoint).add(new X(pointIdx, size));
@@ -173,7 +174,8 @@ public class ShikakuSolver extends Puzzle {
         });
 
         solution = new Array2D<>(arr.getColumns(), arr.getRows(), null);
-        allStartingHere = new Array2D<>(arr.getColumns(), arr.getRows(), new HashSet<>());
+        allStartingHere = new Array2D<>(arr.getColumns(), arr.getRows(), null);
+        allStartingHere.forEach(cell -> cell.setValue(new ArrayList<>()));
         fillAllStartingHere();
 
         populate(new Array2DPoint(0, 0), new HashSet<>());
