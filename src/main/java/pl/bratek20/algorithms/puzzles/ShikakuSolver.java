@@ -18,7 +18,10 @@ public class ShikakuSolver extends Puzzle {
     Array2D<List<X>> allStartingHere;
 
     char getChar(int value) {
-        return (char) ('A' + value);
+        if (value <= 'Z' - 'A') {
+            return (char) ('A' + value);
+        }
+        return (char) ('a' + value - ('Z' - 'A' + 1));
     }
 
     Array2D<Character> getSolutionStr() {
@@ -70,7 +73,8 @@ public class ShikakuSolver extends Puzzle {
 
     Array2DPoint findNext(Array2DPoint currentPos) {
         for (int i = currentPos.row(); i < solution.getRows(); i++) {
-            for (int j = currentPos.column(); j < solution.getColumns(); j++) {
+            int startJ = i == currentPos.row() ? currentPos.column() : 0;
+            for (int j = startJ; j < solution.getColumns(); j++) {
                 if (solution.get(i, j) == null) {
                     return new Array2DPoint(i, j);
                 }
