@@ -17,7 +17,7 @@ public abstract class PuzzleTest {
         testData().forEach(this::testForData);
     }
 
-    private void testForData(TestData testData) {
+    protected void testForData(TestData testData) {
         System.out.println("Testing " + testData.name());
 
         //given

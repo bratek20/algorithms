@@ -1,12 +1,11 @@
 package pl.bratek20.algorithms.puzzles;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
 
 import java.util.List;
 
-@Disabled
 class ShikakuSolverTest extends PuzzleTest {
 
     @Override
@@ -90,5 +89,21 @@ class ShikakuSolverTest extends PuzzleTest {
                     """
             )
         );
+    }
+
+    @Test
+    void x() {
+        testForData(new TestData("ones",
+            """
+                2 2
+                1 1
+                1 1
+                """,
+            """
+                1
+                AB
+                CD
+                """
+        ));
     }
 }
