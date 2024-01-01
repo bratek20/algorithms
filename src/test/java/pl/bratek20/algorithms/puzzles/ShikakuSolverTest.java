@@ -1,6 +1,5 @@
 package pl.bratek20.algorithms.puzzles;
 
-import org.junit.jupiter.api.Test;
 import pl.bratek20.algorithms.common.puzzle.Puzzle;
 import pl.bratek20.algorithms.common.puzzle.PuzzleTest;
 
@@ -86,24 +85,41 @@ class ShikakuSolverTest extends PuzzleTest {
                     8 0 0 0 0 0 0 0 0 0 0 0 0 0 0
                     """,
                 """
+                    20
+                    AABBCCDDDDDDDDD
+                    AABBCCEEEEEEFFF
+                    AABBCCGGGHHHFFF
+                    AABBIIGGGHHHFFF
+                    JJBBIIKKKLLLFFF
+                    JJMMIIKKKLLLFFF
+                    JJMMIIKKKNNNNNN
+                    JJMMIIOOONNNNNN
+                    JJMMIIOOOPPPPQQ
+                    RRMMSSSTTPPPPQQ
+                    RRMMSSSTTUUVVQQ
+                    RRMMSSSTTUUVVQQ
+                    RRWWWXXTTUUVVQQ
+                    RRWWWXXYYZZZZQQ
+                    RRWWWXXYYZZZZQQ
+                    RRaaaaaYYZZZZQQ
+                    bbaaaaaYYZZZZQQ
+                    bbcccccddZZZZQQ
+                    bbcccccddZZZZQQ
+                    bbcccccddZZZZQQ
+                    """
+            ),
+            new TestData("ones",
+                """
+                    2 2
+                    1 1
+                    1 1
+                    """,
+                """
+                    1
+                    AB
+                    CD
                     """
             )
         );
-    }
-
-    @Test
-    void x() {
-        testForData(new TestData("ones",
-            """
-                2 2
-                1 1
-                1 1
-                """,
-            """
-                1
-                AB
-                CD
-                """
-        ));
     }
 }
